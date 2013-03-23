@@ -1,0 +1,104 @@
+<script src="http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+
+<script src="http://requirejs.org/docs/release/2.1.5/minified/require.js"></script> 
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
+<script type="text/javascript" src="http://terminal.jcubic.pl/js/jquery.terminal-0.6.2.min.js"></script>
+<script type="text/javascript" src="http://layout.jquery-dev.net/lib/js/jquery.layout-latest.js"></script>
+
+<link rel="stylesheet" type="text/css" href="http://terminal.jcubic.pl/css/jquery.terminal.css" />
+
+<body>
+
+    <div id="header" class="ui-layout-north"></div>
+    <div id="editor" class="ui-layout-center">\usepackage{amsmath}
+\title{\LaTeX}
+\date{}
+\begin{document}
+  \maketitle
+  \LaTeX{} is a document preparation system for the \TeX{}
+  typesetting program. It offers programmable desktop publishing
+  features and extensive facilities for automating most aspects of
+  typesetting and desktop publishing, including numbering and
+  cross-referencing, tables and figures, page layout, bibliographies,
+  and much more. \LaTeX{} was originally written in 1984 by Leslie
+  Lamport and has become the dominant method for using \TeX; few
+  people write in plain \TeX{} anymore. The current version  is
+  \LaTeXe.
+ 
+  % This is a comment; it will not be shown in the final output.
+  % The following shows a little of the typesetting power of LaTeX:
+  \begin{align}
+    E &= mc^2                              \\
+    m &= \frac{m_0}{\sqrt{1-\frac{v^2}{c^2}}}
+  \end{align}
+\end{document}</div>
+    <div id="terminal" class="ui-layout-south">
+    </div>
+
+    <script type="text/javascript">
+    jQuery(document).ready(function() {
+        var layout = jQuery('body').layout({ 
+            enableCursorHotkey : false,
+            north : {
+                closable : false,
+                size : 20,
+                resizable : false,
+            },
+            south : {
+                resizable : true,
+                size: 80,
+                initClosed: true,
+            }
+        });
+
+        var editor = ace.edit("editor");
+        editor.setTheme("ace/theme/textmate");
+        editor.getSession().setMode("ace/mode/latex");
+
+        require.config({
+          baseUrl: "lib/",
+        });
+
+        require(["ace_text_adapter", "tex_utils", "scriptable_toolbar", "interpretter"], function(Adapter, Tex, Toolbar, Interpretter) {
+
+          var doc = new Adapter(editor);
+          var tex_utils = new Tex(doc);
+          var interpretter = new Interpretter(tex_utils);
+          var toolbar = new Toolbar("#header", interpretter);
+
+          $.get("macros/tex.json", function(data) {
+            toolbar.init(JSON.parse(data));
+        });
+
+          $('#terminal').terminal(function(command, term) {
+            term.echo(interpretter.exec(command));
+        }, {
+            greetings: "",
+            tabcompletion : true,
+            completion : function(terminal, string, callback) {
+                interpretter.autocomplete(string, callback);
+            }
+        });
+
+          $("body").keydown(function(evt) {
+        // if C+` was pressed
+        if (evt.keyCode == 192 && evt.ctrlKey) {
+            if (layout.state.south.isClosed) {
+                layout.open("south");
+                $('#terminal').trigger("click");    
+                $('#terminal').focus();
+                editor.blur ();
+            } else {
+                layout.close("south");
+                $('#editor').trigger("click");
+                editor.focus();
+            }
+        }
+    });
+
+      });
+});
+
+</script>
+</body>
