@@ -10,5 +10,4 @@ define (require) ->
 				me.interpretter.exec(script);
 
 		init: (data) ->
-			for id, item of data
-				@addButton(id, item.name, item.code);
+			@addButton(id, item.name, item.code) for id, item of data

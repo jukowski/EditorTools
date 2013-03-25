@@ -1,3 +1,5 @@
+<!--
+
 <script src="http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 
 <script src="http://requirejs.org/docs/release/2.1.5/minified/require.js"></script> 
@@ -7,11 +9,22 @@
 <script type="text/javascript" src="http://layout.jquery-dev.net/lib/js/jquery.layout-latest.js"></script>
 
 <link rel="stylesheet" type="text/css" href="http://terminal.jcubic.pl/css/jquery.terminal.css" />
+-->
+
+<script src="/lib/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+
+<script src="/lib/require.js"></script> 
+<script src="/lib/jquery-ui/jquery.js"></script>
+<script src="/lib/jquery-ui/jquery-ui.js"></script>
+<script type="text/javascript" src="/lib/jquery-terminal/jquery.terminal-min.js"></script>
+<script type="text/javascript" src="/lib/jquery.layout-latest.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="/lib/jquery-terminal/jquery.terminal.css" />
 
 <body>
 
-    <div id="header" class="ui-layout-north"></div>
-    <div id="editor" class="ui-layout-center">\usepackage{amsmath}
+  <div style="position:absolute; left: 300px; width: 500px; height: 500px">
+    <div id="editor" style="height: 100%">\usepackage{amsmath}
 \title{\LaTeX}
 \date{}
 \begin{document}
@@ -21,7 +34,7 @@
   features and extensive facilities for automating most aspects of
   typesetting and desktop publishing, including numbering and
   cross-referencing, tables and figures, page layout, bibliographies,
-  and much more. \LaTeX{} was originally written in 1984 by Leslie
+  and much more. \LaTeX{} was originally written in 1984 by Leslie  
   Lamport and has become the dominant method for using \TeX; few
   people write in plain \TeX{} anymore. The current version  is
   \LaTeXe.
@@ -33,72 +46,29 @@
     m &= \frac{m_0}{\sqrt{1-\frac{v^2}{c^2}}}
   \end{align}
 \end{document}</div>
-    <div id="terminal" class="ui-layout-south">
-    </div>
+</div>
 
     <script type="text/javascript">
-    jQuery(document).ready(function() {
-        var layout = jQuery('body').layout({ 
-            enableCursorHotkey : false,
-            north : {
-                closable : false,
-                size : 20,
-                resizable : false,
-            },
-            south : {
-                resizable : true,
-                size: 80,
-                initClosed: true,
+        require.config({
+            //baseUrl : "src/"
+            
+            paths: {
+                    "main": "editor_utils"
             }
+            
         });
 
         var editor = ace.edit("editor");
         editor.setTheme("ace/theme/textmate");
+        emacs = window.ace.require("ace/keyboard/emacs").handler
+
         editor.getSession().setMode("ace/mode/latex");
 
-        require.config({
-          baseUrl: "lib/",
+        require(["main"], function(main) {
+            main.enrich_editor(editor, "#editor");
         });
 
-        require(["ace_text_adapter", "tex_utils", "scriptable_toolbar", "interpretter"], function(Adapter, Tex, Toolbar, Interpretter) {
-
-          var doc = new Adapter(editor);
-          var tex_utils = new Tex(doc);
-          var interpretter = new Interpretter(tex_utils);
-          var toolbar = new Toolbar("#header", interpretter);
-
-          $.get("macros/tex.json", function(data) {
-            toolbar.init(JSON.parse(data));
-        });
-
-          $('#terminal').terminal(function(command, term) {
-            term.echo(interpretter.exec(command));
-        }, {
-            greetings: "",
-            tabcompletion : true,
-            completion : function(terminal, string, callback) {
-                interpretter.autocomplete(string, callback);
-            }
-        });
-
-          $("body").keydown(function(evt) {
-        // if C+` was pressed
-        if (evt.keyCode == 192 && evt.ctrlKey) {
-            if (layout.state.south.isClosed) {
-                layout.open("south");
-                $('#terminal').trigger("click");    
-                $('#terminal').focus();
-                editor.blur ();
-            } else {
-                layout.close("south");
-                $('#editor').trigger("click");
-                editor.focus();
-            }
-        }
-    });
-
-      });
-});
+//        });
 
 </script>
 </body>
