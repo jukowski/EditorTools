@@ -1,10 +1,10 @@
 define (require) ->
 
-	Adapter = require "ace_text_adapter"
+	Adapter = require "editor_tools/ace_text_adapter"
 
-	Tex = require "tex_utils"
-	Toolbar = require "scriptable_toolbar"
-	Interpretter = require "interpretter"
+	Tex = require "editor_tools/tex_utils"
+	Toolbar = require "editor_tools/scriptable_toolbar"
+	Interpretter = require "editor_tools/interpretter"
 
 	enrich_editor : (editor, id) ->
 		# ui-layout-north
@@ -46,7 +46,6 @@ define (require) ->
 		termToggle = (evt)->
 			# if C+` was pressed
 			if evt.keyCode == 192 && evt.ctrlKey
-				conso 
 				if layout.state.south.isClosed
 					layout.open("south");
 					$(terminal).trigger("click");    

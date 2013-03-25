@@ -1,5 +1,5 @@
 define (require) ->
-	TextUtils = require "text_utils"
+	TextUtils = require "editor_tools/text_utils"
 
 	class TexUtils extends TextUtils
 		constructor: (@editor) ->

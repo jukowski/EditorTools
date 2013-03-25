@@ -4,7 +4,7 @@ var __hasProp = {}.hasOwnProperty,
 
 define(function(require) {
   var TexUtils, TextUtils;
-  TextUtils = require("text_utils");
+  TextUtils = require("editor_tools/text_utils");
   TexUtils = (function(_super) {
 
     __extends(TexUtils, _super);

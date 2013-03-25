@@ -2,10 +2,10 @@
 
 define(function(require) {
   var Adapter, Interpretter, Tex, Toolbar;
-  Adapter = require("ace_text_adapter");
-  Tex = require("tex_utils");
-  Toolbar = require("scriptable_toolbar");
-  Interpretter = require("interpretter");
+  Adapter = require("editor_tools/ace_text_adapter");
+  Tex = require("editor_tools/tex_utils");
+  Toolbar = require("editor_tools/scriptable_toolbar");
+  Interpretter = require("editor_tools/interpretter");
   return {
     enrich_editor: function(editor, id) {
       var doc, header, interpretter, layout, termToggle, terminal, tex_utils, toolbar, wrapped;
@@ -42,8 +42,6 @@ define(function(require) {
       });
       termToggle = function(evt) {
         if (evt.keyCode === 192 && evt.ctrlKey) {
-          conso;
-
           if (layout.state.south.isClosed) {
             layout.open("south");
             $(terminal).trigger("click");

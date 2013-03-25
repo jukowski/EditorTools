@@ -50,21 +50,17 @@
 
     <script type="text/javascript">
         require.config({
-            //baseUrl : "src/"
-            
             paths: {
-                    "main": "editor_utils"
+                    "main": "editor_utils.min"
             }
-            
         });
 
         var editor = ace.edit("editor");
         editor.setTheme("ace/theme/textmate");
-        emacs = window.ace.require("ace/keyboard/emacs").handler
 
         editor.getSession().setMode("ace/mode/latex");
 
-        require(["main"], function(main) {
+        require(["editor_tools/main"], function(main) {
             main.enrich_editor(editor, "#editor");
         });
 

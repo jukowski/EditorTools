@@ -12,7 +12,7 @@ path_sep = if os.platform() == 'win32' then ";" else ":"
 process.env.PATH = "#{npm_bin}#{path_sep}#{process.env.PATH}"
 
 task 'build', 'Build the .js files', ->
-	exec "coffee --compile --bare --output lib/ src/"
+	exec "coffee --compile --bare --output editor_tools src/"
 
 task 'min', 'Build the minified version', ->
 	exec "r.js -o build.js"
