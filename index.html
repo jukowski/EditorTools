@@ -15,10 +15,10 @@
 <link href="/lib//office-ribbon/ribbon/ribbon.css" rel="Stylesheet" type="text/css" />
 <link href="/lib/jquery-ui/css/smoothness/jquery-ui.css" rel="Stylesheet" type="text/css" />
 
-<script type="text/javascript" src="/lib/jquery-terminal/jquery.terminal-min.js"></script>
+<script type="text/javascript" src="/lib/jquery.terminal/jquery.terminal-min.js"></script>
 <script type="text/javascript" src="/lib/jquery.layout-latest.min.js"></script>
 
-<link rel="stylesheet" type="text/css" href="/lib/jquery-terminal/jquery.terminal.css" />
+<link rel="stylesheet" type="text/css" href="/lib/jquery.terminal/css/jquery.terminal.css" />
 
 <body>
 
@@ -67,12 +67,12 @@
             toolbar = handlers.toolbar;
             interpretter = handlers.interpretter;
 
-            jQuery.get("macros/menu_layout.json", function (data) {
+            jQuery.get(Drupal.settings.editor_tools.editor_tools_path+"/macros/menu_layout.json", function (data) {
               toolbar.loadLayout(JSON.parse(data));
               jQuery(handlers.header).find(".ribbon").ribbon(); 
             });
 
-            jQuery.get("macros/preferences.json", function (data) {
+            jQuery.get(Drupal.settings.editor_tools.editor_tools_path+"/macros/preferences.json", function (data) {
               interpretter.loadAPI(JSON.parse(data));
               jQuery(handlers.header).find(".ribbon").ribbon(); 
             });

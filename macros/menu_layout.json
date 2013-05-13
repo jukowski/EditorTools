@@ -48,7 +48,7 @@
 	"Semantics" : {
 		"References" : {
 			"Def. Look" : {
-				"href" : "../lib/office-ribbon/icons/normal/bold.png",
+				"href" : "icons/cmd/lc_bold.png",
 				"cmd" : "bold_handler()",
 				"help" : "Definition Lookup"
 			}

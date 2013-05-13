@@ -1,7 +1,7 @@
 define (req) ->
 
 	class Interpreter
-		constructor: (@editor) ->
+		constructor: (@editor, @config) ->
 			@env = {};
 
 		hasImplementation: (item) ->
@@ -20,12 +20,16 @@ define (req) ->
 				results.push(prop) if prop.indexOf(string) == 0
 			callback(results);
 
+		loadScript : (editor, env, api) ->
+			(t) ->
+				env[api] = () ->
+					t(editor);
+
 		loadAPI: (data) ->
 			env = @env;
 			editor = @editor;
 			for prop of data
 				api = "scripts/"+prop+"-"+data[prop]["repo"]+"-"+data[prop]["version"]+".js";
-				r = require([api], (t) ->
-					env[prop] = () ->
-						t(editor);
-					);
+				r = require([require.toUrl(api)], @loadScript(editor, env, prop));
+
+			env

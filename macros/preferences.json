@@ -2,5 +2,13 @@
 	"bold" : {
 		"repo" : "cjucovschi",
 		"version" : "0.0.1"
+	},
+	"italic" : {
+		"repo" : "cjucovschi",
+		"version" : "0.0.1"
+	},
+	"underline" : {
+		"repo" : "cjucovschi",
+		"version" : "0.0.1"
 	}
 }

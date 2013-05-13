@@ -4,7 +4,7 @@ define (require) ->
 	Toolbar = require "editor_tools/scriptable_toolbar"
 	Interpretter = require "editor_tools/interpretter"
 
-	enrich_editor : (editor, id) ->
+	enrich_editor : (editor, id, config = {root_path : ""}) ->
 		# ui-layout-north
 		wrapped = $(id).wrap("<div>").parent();
 		$(id).addClass("ui-layout-center");
@@ -14,27 +14,27 @@ define (require) ->
 		wrapped.append(terminal);
 		layout = null
 
-		jQuery(document).ready(() ->
-			$(wrapped).width($(id).width())
-			$(wrapped).height($(id).height())
+#		jQuery(document).ready(() ->
+#			$(wrapped).width($(id).width())
+#			$(wrapped).height($(id).height())
+#
+#			layout = wrapped.layout({ 
+#				enableCursorHotkey : false,
+#				north : {
+#					closable : false,
+#					size : 120,
+#					resizable : false,
+#				},
+#				south : {
+#					resizable : true,
+#					size: 80,
+#					initClosed: true,
+#				}
+#			});
+#		)
 
-			layout = wrapped.layout({ 
-				enableCursorHotkey : false,
-				north : {
-					closable : false,
-					size : 120,
-					resizable : false,
-				},
-				south : {
-					resizable : true,
-					size: 80,
-					initClosed: true,
-				}
-			});
-		)
-
-		interpretter = new Interpretter(editor);
-		toolbar = new Toolbar(header, interpretter);
+		interpretter = new Interpretter(editor, config);
+		toolbar = new Toolbar(header, interpretter, config);
 
 		termToggle = (evt)->
 			# if C+` was pressed

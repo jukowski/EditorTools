@@ -2,7 +2,7 @@ define (require) ->
 	$ = jQuery if not $?;
 
 	class ScriptableToolbar
-		constructor: (parent, @interpretter) ->
+		constructor: (parent, @interpretter, @config) ->
 			@menuMap = {};
 			@initVisual(parent);
 
@@ -14,7 +14,7 @@ define (require) ->
 			item.append($("<span>").addClass("button-help").text(helpText))
 			noimpl = "";
 			noimpl = "ribbon-noimpl" if (@interpretter.hasImplementation(itemName));
-			item.append($("<img>").addClass("ribbon-icon").addClass(noimpl).attr("src", imghRef));
+			item.append($("<img>").addClass("ribbon-icon").addClass(noimpl).attr("src", @config.root_path+imghRef));
 
 			$(item).click () ->
 				me.interpretter.exec(itemName+"();");
