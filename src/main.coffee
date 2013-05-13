@@ -1,8 +1,6 @@
 define (require) ->
 
-	Adapter = require "editor_tools/ace_text_adapter"
-
-	Tex = require "editor_tools/tex_utils"
+	$ = jQuery if not $?;
 	Toolbar = require "editor_tools/scriptable_toolbar"
 	Interpretter = require "editor_tools/interpretter"
 
@@ -24,7 +22,7 @@ define (require) ->
 				enableCursorHotkey : false,
 				north : {
 					closable : false,
-					size : 20,
+					size : 120,
 					resizable : false,
 				},
 				south : {
@@ -35,13 +33,8 @@ define (require) ->
 			});
 		)
 
-		doc = new Adapter(editor);
-		tex_utils = new Tex(doc);
-		interpretter = new Interpretter(tex_utils);
+		interpretter = new Interpretter(editor);
 		toolbar = new Toolbar(header, interpretter);
-
-		jQuery.get "macros/tex.json", (data) ->
-			toolbar.init(JSON.parse(data));
 
 		termToggle = (evt)->
 			# if C+` was pressed
@@ -67,3 +60,10 @@ define (require) ->
 
 
 		$(wrapped).keydown termToggle
+
+		{
+			toolbar : toolbar,
+			interpretter : interpretter,
+			editor : editor,
+			header: header,
+		}

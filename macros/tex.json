@@ -1,6 +1,0 @@
-{
-    "itemize" : {
-        "name" : "itemize",
-        "code" : "var env = getEnvironmentAtPos();\nindentToNextLine();\nif (env == \"itemize\") {\n   insert(\"\\\\item \");\n} else {\n   insert(\"\\\\begin{itemize}\");\n   indentToNextLine();\n   insert(\"\\\\item \");\n   var t = getPos();\n   var pos = getEol();\n   insert(pos, \"\\\\end{itemize}\");\n   indentToNextLine(pos);\n   setPos(t);\n}\nfocus();"
-    }
-}

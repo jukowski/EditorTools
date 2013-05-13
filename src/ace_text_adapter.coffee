@@ -1,11 +1,20 @@
 define (require) ->
 	class AceTextAdapter
+		clipboard = null
+
 		constructor: (@ace) -> @session = @ace.getSession();
+
 		getText : () -> @ace.getValue();
 		insert : (pos, text) -> @session.insert(pos, text);
 		getSelectedRange : () -> @session.getSelection().getRange();
 		getCursorPosition : () -> @ace.getCursorPosition();
 		setCursorPosition : (pos) -> @ace.moveCursorToPosition(pos); @ace.clearSelection();
+
+		getSelectionText : () -> @session.getTextRange(@ace.getSelectionRange());
+
+		cut: () -> clipboard = @getSelectionText(); @ace.execCommand("cut"); return; 
+		copy: () -> clipboard = @getSelectionText(); return;
+		paste: () -> @insertAtCursor(clipboard); @ace.clearSelection(); return;
 
 		focus : () -> @ace.focus();
 

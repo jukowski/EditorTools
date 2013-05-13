@@ -1,0 +1,57 @@
+{
+	"Home" : {
+		"Formatting" : {
+			"italic" : {
+				"href" : "icons/cmd/lc_italic.png",
+				"help" : "Italic selection"
+			},
+			"bold" : {
+				"href" : "icons/cmd/lc_bold.png",
+				"help" : "Bold selection"
+			},
+			"underline" : {
+				"clear" : true,
+				"href" : "icons/cmd/lc_underline.png",
+				"help" : "Bold selection"
+			}
+		},
+		"Paragraph" : {
+			"AlignLeft" : {
+				"href" : "icons/cmd/lc_alignleft.png",
+				"help" : "Align left"				
+			},
+			"AlignRight" : {
+				"href" : "icons/cmd/lc_alignright.png",
+				"help" : "Align right"				
+			},
+			"AlignCenter" : {
+				"clear": true,
+				"href" : "icons/cmd/lc_centerpara.png",
+				"help" : "Align center"				
+			},
+			"AlignJustify" : {
+				"href" : "icons/cmd/lc_justifypara.png",
+				"help" : "Align center"				
+			}
+		},
+		"Numbering": {
+			"Itemize" : {
+				"href" : "icons/cmd/lc_defaultbullet.png",
+				"help" : "Align center"				
+			},
+			"Enumerate" : {
+				"href" : "icons/cmd/lc_defaultnumbering.png",
+				"help" : "Align center"				
+			}
+		}
+	},
+	"Semantics" : {
+		"References" : {
+			"Def. Look" : {
+				"href" : "../lib/office-ribbon/icons/normal/bold.png",
+				"cmd" : "bold_handler()",
+				"help" : "Definition Lookup"
+			}
+		}
+	}
+}

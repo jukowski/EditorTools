@@ -1,0 +1,1 @@
+/var/www/test/editor/build/core-cjucovschi-0.0.1.js
