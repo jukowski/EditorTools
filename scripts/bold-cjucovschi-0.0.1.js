@@ -1,1 +1,3 @@
-/var/www/test/editor/build/bold-cjucovschi-0.0.1.js
+define(function(require) { return function(ace) { var core = require("scripts/core-cjucovschi-0.0.1"); core.setAce(ace); core.embbedText(core.getSelectedRange(), "\\textbf\{", "}");
+core.focus();
+core.clearSelection();}});
