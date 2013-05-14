@@ -16,30 +16,26 @@
 			}
 		},
 		"Paragraph" : {
-			"AlignLeft" : {
+			"alignleft" : {
 				"href" : "icons/cmd/lc_alignleft.png",
 				"help" : "Align left"				
 			},
-			"AlignRight" : {
+			"alignright" : {
 				"href" : "icons/cmd/lc_alignright.png",
 				"help" : "Align right"				
 			},
-			"AlignCenter" : {
+			"aligncenter" : {
 				"clear": true,
 				"href" : "icons/cmd/lc_centerpara.png",
-				"help" : "Align center"				
-			},
-			"AlignJustify" : {
-				"href" : "icons/cmd/lc_justifypara.png",
 				"help" : "Align center"				
 			}
 		},
 		"Numbering": {
-			"Itemize" : {
+			"itemize" : {
 				"href" : "icons/cmd/lc_defaultbullet.png",
 				"help" : "Align center"				
 			},
-			"Enumerate" : {
+			"enumerate" : {
 				"href" : "icons/cmd/lc_defaultnumbering.png",
 				"help" : "Align center"				
 			}
