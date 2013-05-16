@@ -40,14 +40,5 @@
 				"help" : "Align center"				
 			}
 		}
-	},
-	"Semantics" : {
-		"References" : {
-			"Def. Look" : {
-				"href" : "icons/cmd/lc_bold.png",
-				"cmd" : "bold_handler()",
-				"help" : "Definition Lookup"
-			}
-		}
 	}
 }
