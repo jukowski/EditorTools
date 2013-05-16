@@ -10,7 +10,6 @@
 				"help" : "Bold selection"
 			},
 			"underline" : {
-				"clear" : true,
 				"href" : "icons/cmd/lc_underline.png",
 				"help" : "Bold selection"
 			}
@@ -25,7 +24,6 @@
 				"help" : "Align right"				
 			},
 			"aligncenter" : {
-				"clear": true,
 				"href" : "icons/cmd/lc_centerpara.png",
 				"help" : "Align center"				
 			}
