@@ -37,6 +37,18 @@
 				"href" : "icons/cmd/lc_defaultnumbering.png",
 				"help" : "Align center"				
 			}
+		},
+		"Math" : {
+			"insertMath" : {
+				"href" : "icons/cmd/sc_insertmath.png",
+				"help" : "Align center"		
+			}
+		},
+		"Customization" : {
+			"addCommand" : {
+				"href" : "icons/cmd/lc_insertplugin.png",
+				"help" : "Plugin"		
+			}
 		}
 	}
 }

@@ -24,7 +24,6 @@
 
   <div style="position:absolute; width: 50%; height: 50%; left: 10px; top: 5px;">
 
-
 <div id="editor" style="height: 500px; width: 100% ">\usepackage{amsmath}
 \title{\LaTeX}
 \date{}
@@ -67,12 +66,12 @@
             toolbar = handlers.toolbar;
             interpretter = handlers.interpretter;
 
-            jQuery.get(Drupal.settings.editor_tools.editor_tools_path+"/macros/menu_layout.json", function (data) {
+            jQuery.get("macros/menu_layout.json", function (data) {
               toolbar.loadLayout(JSON.parse(data));
               jQuery(handlers.header).find(".ribbon").ribbon(); 
             });
 
-            jQuery.get(Drupal.settings.editor_tools.editor_tools_path+"/macros/preferences.json", function (data) {
+            jQuery.get("macros/preferences.json", function (data) {
               interpretter.loadAPI(JSON.parse(data));
               jQuery(handlers.header).find(".ribbon").ribbon(); 
             });

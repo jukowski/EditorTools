@@ -30,5 +30,13 @@
 	"enumerate" : {
 		"repo" : "cjucovschi",
 		"version" : "0.0.1"
+	},
+	"insertMath" : {
+		"repo" : "cjucovschi",
+		"version" : "0.0.1"
+	},
+	"addCommand" : {
+		"repo" : "cjucovschi",
+		"version" : "0.0.1"
 	}
 }
