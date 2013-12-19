@@ -4,8 +4,6 @@ define (require) ->
 	Toolbar = require "editor_tools/scriptable_toolbar"
 	Interpretter = require "editor_tools/interpretter"
 
-	eventQueue = $("<div>");
-
 	enrich_editor : (editor, id, config = {root_path : ""}) ->
 		# ui-layout-north
 		wrapped = $(id).wrap("<div>").parent();
@@ -16,7 +14,7 @@ define (require) ->
 		wrapped.append(terminal);
 		layout = null
 
-		config.eventQueue = eventQueue;
+		config.eventQueue = $("<div>");
 
 #		jQuery(document).ready(() ->
 #			$(wrapped).width($(id).width())
