@@ -52,6 +52,8 @@ define (require) ->
 			parent.append(@ribbon);
 
 		loadLayout: (data) ->
+			if typeof(data) == "string"
+				data = JSON.parse(data)
 			for name, menuData of data
 				menu = @addMenu(name)
 				for sectionName, sectionData of menuData

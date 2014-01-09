@@ -33,6 +33,8 @@ define (req) ->
 					t(editor);
 
 		loadAPI: (data) ->
+			if typeof(data) == "string"
+				data = JSON.parse(data)
 			env = @env;
 			editor = @editor;
 			for prop of data

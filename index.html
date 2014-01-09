@@ -67,12 +67,12 @@
             interpretter = handlers.interpretter;
 
             jQuery.get("macros/menu_layout.json", function (data) {
-              toolbar.loadLayout(JSON.parse(data));
+              toolbar.loadLayout(data);
               jQuery(handlers.header).find(".ribbon").ribbon(); 
             });
 
             jQuery.get("macros/preferences.json", function (data) {
-              interpretter.loadAPI(JSON.parse(data));
+              interpretter.loadAPI(data);
               jQuery(handlers.header).find(".ribbon").ribbon(); 
             });
         });
