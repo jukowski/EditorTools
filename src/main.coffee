@@ -4,7 +4,7 @@ define (require) ->
 	Toolbar = require "editor_tools/scriptable_toolbar"
 	Interpretter = require "editor_tools/interpretter"
 
-	enrich_editor : (editor, id, config = {root_path : ""}) ->
+	enrich_editor : (editor, id, root_path = "") ->
 		# ui-layout-north
 		wrapped = $(id).wrap("<div>").parent();
 		$(id).addClass("ui-layout-center");
@@ -13,8 +13,6 @@ define (require) ->
 		wrapped.prepend(header);
 		wrapped.append(terminal);
 		layout = null
-
-		config.eventQueue = $("<div>");
 
 #		jQuery(document).ready(() ->
 #			$(wrapped).width($(id).width())
@@ -35,8 +33,8 @@ define (require) ->
 #			});
 #		)
 
-		interpretter = new Interpretter(editor, config);
-		toolbar = new Toolbar(header, config);
+		interpretter = new Interpretter(editor);
+		toolbar = new Toolbar(header, interpretter, root_path);
 
 #		termToggle = (evt)->
 #			# if C+` was pressed

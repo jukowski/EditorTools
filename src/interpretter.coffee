@@ -1,20 +1,17 @@
 define (req) ->
 
 	class Interpreter
-		constructor: (@editor, @config) ->
+		constructor: (@editor) ->
 			_this = @;
 			@env = {};
-			@eventQueue = @config.eventQueue;
-
-			JOBAD.util.on(@eventQueue, "interpreter/getImplementation", (item) ->
-				return _this.env[item];
-				);
 
 		hasImplementation: (item) ->
 			@env[item]?;
 
+		getImplementation: (cmd) ->
+			@env[cmd]
+
 		exec: (script) ->
-			console.log(this);
 			try
 				eval("with (this.env) { script(); }");
 			catch e

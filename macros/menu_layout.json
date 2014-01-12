@@ -53,6 +53,12 @@
 				"href" : "icons/cmd/sc_connectorarrows.png",
 				"help" : "Graph"		
 			}
+		},
+		"Utilities" : {
+			"search-concept" : {
+				"href" : "icons/cmd/sc_outlineup.png",
+				"help" : "Compile"		
+			}
 		}
 
 	}

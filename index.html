@@ -20,6 +20,8 @@
 
 <link rel="stylesheet" type="text/css" href="/lib/jquery.terminal/css/jquery.terminal.css" />
 
+<link rel="stylesheet" type="text/css" href="editor_tools.css" />
+
 <body>
 
   <div style="position:absolute; width: 50%; height: 50%; left: 10px; top: 5px;">
@@ -61,6 +63,7 @@
 
         editor.getSession().setMode("ace/mode/latex");
         require(["editor_tools/main"], function(main) {
+            var env = null;
             handlers = main.enrich_editor(editor, "#editor");
 
             toolbar = handlers.toolbar;
@@ -72,9 +75,13 @@
             });
 
             jQuery.get("macros/preferences.json", function (data) {
-              interpretter.loadAPI(data);
-              jQuery(handlers.header).find(".ribbon").ribbon(); 
+              env = interpretter.loadAPI(data);
+              jQuery(handlers.header).find(".ribbon").ribbon();
             });
+
+            setTimeout(function() {
+              interpretter.exec(interpretter.getImplementation("search-concept"));
+            }, 1000);
         });
 
 

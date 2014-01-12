@@ -2,10 +2,9 @@ define (require) ->
 	$ = jQuery if not $?;
 
 	class ScriptableToolbar
-		constructor: (parent, @config) ->
+		constructor: (parent, @interpreter, @root_path) ->
 			@menuMap = {};
 			@initVisual(parent);
-			@eventQueue = @config.eventQueue;
 
 		addItem: (section, itemName, imghRef, helpText="", clear=false) ->
 			me = @
@@ -13,14 +12,12 @@ define (require) ->
 			item = $("<div>").addClass("ribbon-button").attr("style","float:left");
 			item.attr("style", item.attr("style")+";clear:both") if clear;
 			item.append($("<span>").addClass("button-help").text(helpText))
-			item.append($("<img>").addClass("ribbon-icon").attr("src", @config.root_path+imghRef));
+			item.append($("<img>").addClass("ribbon-icon").attr("src", @root_path+imghRef));
 
 			$(item).click () ->
-				impls = JOBAD.util.trigger(me.eventQueue, "interpreter/getImplementation", itemName);
-				impls = JOBAD.util.compact(impls);
-				return if (impls.length == 0);
-				script = impls[0];
-				script();
+				impl = me.interpreter.getImplementation(itemName);
+				return if not impl?
+				impl();
 
 			$(item).mousedown (evt) -> 
 				return if evt.which != 3;
