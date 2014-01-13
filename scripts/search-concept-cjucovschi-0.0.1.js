@@ -46,7 +46,7 @@ scriptFrame.append("Search").append(searchBox).append(resultWrapper);
     dosearch($(searchBox).val());
   });
 
-  dosearch($(searchBox).val());
+  //dosearch($(searchBox).val());
 
   $(scriptFrame).dialog({
     width : "430px",

@@ -14,10 +14,17 @@ define (require) ->
 		@editor.stompCorrelation[corrid](msg);
 		delete @editor.stompCorrelation[corrid]
 
-	enrich_editor : (@editor, id, root_path = "", stompUrl = "ws://localhost:61623", stompUser = "admin", stompPassword="password") ->
+	enrich_editor : (@editor, id, config={}) ->
+		merge(
+			root_path : "",
+			stompUrl : "ws://localhost:61623", 
+			stompUser : "admin", 
+			stompPassword : "password",
+		, config);
+
 		# ui-layout-north
-		@stompClient = Stomp.client(stompUrl)
-		@stompClient.connect(stompUser, stompPassword, ((frame) ->
+		@stompClient = Stomp.client(config.stompUrl)
+		@stompClient.connect(config.stompUser, config.stompPassword, ((frame) ->
 			privateQueue = "/queue/editor_tools_"+Math.floor(Math.random()*100000);
 			@editor.stomp = @stompClient;
 			@editor.stompQueue = privateQueue;
@@ -53,7 +60,7 @@ define (require) ->
 #		)
 
 		interpretter = new Interpretter(@editor);
-		toolbar = new Toolbar(header, interpretter, root_path);
+		toolbar = new Toolbar(header, interpretter, config.root_path);
 
 #		termToggle = (evt)->
 #			# if C+` was pressed
