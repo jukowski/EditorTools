@@ -15,12 +15,12 @@ define (require) ->
 		delete @editor.stompCorrelation[corrid]
 
 	enrich_editor : (@editor, id, config={}) ->
-		merge(
+		$.extend(config, {
 			root_path : "",
 			stompUrl : "ws://localhost:61623", 
 			stompUser : "admin", 
 			stompPassword : "password",
-		, config);
+		});
 
 		# ui-layout-north
 		@stompClient = Stomp.client(config.stompUrl)
