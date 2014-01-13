@@ -3,7 +3,7 @@ define (require) ->
 	$ = jQuery if not $?;
 	Toolbar = require "editor_tools/scriptable_toolbar"
 	Interpretter = require "editor_tools/interpretter"
-	require "editor_tools/stomp"
+	require "stomp"
 
 	stompMsgHandler : (msg)->
 		corrid = msg.headers["correlation-id"];
