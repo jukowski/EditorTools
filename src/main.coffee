@@ -4,17 +4,20 @@ define (require) ->
 	Toolbar = require "editor_tools/scriptable_toolbar"
 	Interpretter = require "editor_tools/interpretter"
 	require "stomp"
+	connections = {};
+	stompCorrelation = {};
 
-	stompMsgHandler : (msg)->
+	stompMsgHandler = (msg)->
 		corrid = msg.headers["correlation-id"];
 		if typeof(corrid) != "string"
 			return;
-		if not corrid in @editor.stompCorrelation
+		if not @stompCorrelation[corrid]?
 			return;
-		@editor.stompCorrelation[corrid](msg);
-		delete @editor.stompCorrelation[corrid]
+		@stompCorrelation[corrid](msg);
+		delete @stompCorrelation[corrid]
 
 	enrich_editor : (@editor, id, config={}) ->
+		@id = id;
 		config = $.extend({
 			root_path : "",
 			stompUrl : "ws://localhost:61623", 
@@ -22,15 +25,32 @@ define (require) ->
 			stompPassword : "password",
 		}, config);
 
-		# ui-layout-north
-		@stompClient = Stomp.client(config.stompUrl)
-		@stompClient.connect(config.stompUser, config.stompPassword, ((frame) ->
-			privateQueue = "/queue/editor_tools_"+Math.floor(Math.random()*100000);
-			@editor.stomp = @stompClient;
-			@editor.stompQueue = privateQueue;
-			@editor.stompCorrelation = {};
-			@stompClient.subscribe(privateQueue, @stompMsgHandler.bind(@))
-		).bind(this))
+		@onConnected = (client) ->
+			if client.connected 
+				return callback();
+			if not client.connection_div? 
+				client.connection_div = $("<div>")
+			$(client.connection_div).bind("onConnected", {editor : @editor, stompClient: @stompClient}, (e) ->
+				editor = e.data.editor;
+				stompClient = e.data.stompClient;
+
+				privateQueue = "/queue/editor_tools_"+Math.floor(Math.random()*100000);
+				editor.stomp = stompClient;
+				editor.stompQueue = privateQueue;
+				editor.stompCorrelation = {};
+				stompClient.subscribe(privateQueue, stompMsgHandler.bind(editor))
+			)
+
+		if connections[config.stompUrl]?
+			@stompClient = connections[config.stompUrl]
+		else
+			@stompClient = Stomp.client(config.stompUrl)
+			connections[config.stompUrl] = @stompClient
+			@stompClient.connect(config.stompUser, config.stompPassword, ((frame) ->
+				$(@stompClient.connection_div).trigger("onConnected");
+				).bind(@))
+
+		@onConnected(@stompClient)
 
 		wrapped = $(id).wrap("<div>").parent();
 		$(id).addClass("ui-layout-center");

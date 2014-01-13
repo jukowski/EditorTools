@@ -5,7 +5,7 @@ var $ = jQuery;
 var resultWrapper = $("<div>");
 
 var scriptFrame = $("<div>");
-var searchBox = $("<input type='text'>").val("factorial");
+var searchBox = $("<input type='text'>").val("");
 
 function genResult(res) {
   var resbutton = $("<button>").addClass("term-search-result").text(res["symbol"]);
