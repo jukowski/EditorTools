@@ -17,9 +17,7 @@ function genResult(res) {
 }
 
 function genResultPage(results) {
-  var docs = results["docs"];
-  if (typeof(docs) !== "object")
-    docs = [];
+  var docs = results;
   var result = $("<div>").text("Found "+docs.length+" matches");
   $(result).addClass("result-page");
   for (var i=0; i<docs.length; ++i) {
@@ -33,7 +31,8 @@ scriptFrame.append("Search").append(searchBox).append(resultWrapper);
   function dosearch(search) {
     if (search.length == 0)
       return
-    $.get("getResults.php", {q : search}, function(resp) {
+    core.stompRequest("/queue/defindexer.getdefinition", {"q" : search}, function(msg) {
+      var resp = msg.body;
       if (typeof(resp) == "string") {
         resp = JSON.parse(resp);
       }

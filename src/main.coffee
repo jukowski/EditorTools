@@ -3,9 +3,28 @@ define (require) ->
 	$ = jQuery if not $?;
 	Toolbar = require "editor_tools/scriptable_toolbar"
 	Interpretter = require "editor_tools/interpretter"
+	require "editor_tools/stomp"
 
-	enrich_editor : (editor, id, root_path = "") ->
+	stompMsgHandler : (msg)->
+		corrid = msg.headers["correlation-id"];
+		if typeof(corrid) != "string"
+			return;
+		if not corrid in @editor.stompCorrelation
+			return;
+		@editor.stompCorrelation[corrid](msg);
+		delete @editor.stompCorrelation[corrid]
+
+	enrich_editor : (@editor, id, root_path = "", stompUrl = "ws://localhost:61623", stompUser = "admin", stompPassword="password") ->
 		# ui-layout-north
+		@stompClient = Stomp.client(stompUrl)
+		@stompClient.connect(stompUser, stompPassword, ((frame) ->
+			privateQueue = "/queue/editor_tools_"+Math.floor(Math.random()*100000);
+			@editor.stomp = @stompClient;
+			@editor.stompQueue = privateQueue;
+			@editor.stompCorrelation = {};
+			@stompClient.subscribe(privateQueue, @stompMsgHandler.bind(@))
+		).bind(this))
+
 		wrapped = $(id).wrap("<div>").parent();
 		$(id).addClass("ui-layout-center");
 		header = $("<div>").addClass("ui-layout-north");
@@ -33,7 +52,7 @@ define (require) ->
 #			});
 #		)
 
-		interpretter = new Interpretter(editor);
+		interpretter = new Interpretter(@editor);
 		toolbar = new Toolbar(header, interpretter, root_path);
 
 #		termToggle = (evt)->
@@ -64,6 +83,6 @@ define (require) ->
 		{
 			toolbar : toolbar,
 			interpretter : interpretter,
-			editor : editor,
+			editor : @editor,
 			header: header,
 		}
