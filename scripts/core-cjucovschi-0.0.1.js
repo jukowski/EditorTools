@@ -16,6 +16,17 @@ core.getText = function() {
   return ace.getValue();
 };
 
+core.getPrivateQueue = function() {
+  return ace.stompQueue;
+}
+
+core.registerCallback = function(callback) {
+  var corrid = Math.random()*1000000;
+  ace.stompCorrelation[corrid] = callback;
+  return corrid;
+}
+
+
 core.stompRequest = function(destination, msg, callback) {
   var header = {};
   if (typeof(callback) == "function") {

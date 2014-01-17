@@ -15,3 +15,6 @@
   float: right;
 }
 
+.ui-dialog .ui-dialog-content.no-margins {
+  padding: 0px;
+}

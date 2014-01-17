@@ -4,63 +4,20 @@ var $ = jQuery;
 
 var resultWrapper = $("<div>");
 
-var scriptFrame = $("<div>");
-var searchBox = $("<input type='text'>").val("");
+var queue = core.getPrivateQueue();
+var scriptFrame;
 
-function genResult(res) {
-  var resbutton = $("<button>").addClass("term-search-result").text(res["symbol"]);
-  $(resbutton).click(function() {
-    $(scriptFrame).dialog("close");
-    core.insert("\\atrefi["+res.symbol+"]{}{"+res.symbol+"}");
-  });
-  return resbutton;
-}
+var id = core.registerCallback(function(msg) {
+  data = JSON.parse(msg.body);
+  core.insert("\\termref{"+data.symbol+"}{}{"+data.symbol+"}");
+  $(scriptFrame).dialog("close");
+});
 
-function genResultPage(results) {
-  var docs = results;
-  var result = $("<div>").text("Found "+docs.length+" matches");
-  $(result).addClass("result-page");
-  for (var i=0; i<docs.length; ++i) {
-    result.append(genResult(docs[i]));
-  }
-  return result;
-}
-
-scriptFrame.append("Search").append(searchBox).append(resultWrapper);
-
-  function dosearch(search) {
-    if (search.length == 0)
-      return
-    core.stompRequest("/queue/defindexer.getdefinition", {"q" : search}, function(msg) {
-      var resp = msg.body;
-      if (typeof(resp) == "string") {
-        resp = JSON.parse(resp);
-      }
-      var resPage = genResultPage(resp);
-      resultWrapper.empty();
-      resultWrapper.append(resPage);
-    });    
-  }
-
-  $(searchBox).bind('input propertychange', function() {
-    dosearch($(searchBox).val());
-  });
-
-  //dosearch($(searchBox).val());
-
+scriptFrame = $("<iframe>").attr("src", "http://mathhub.info:8983/defindexer/app/search?forward_destination="+queue+"&forward_correlation="+id);
   $(scriptFrame).dialog({
-    width : "430px",
-    heiht: "380px",
+    width : 530,
+    height: 380,
     title: "Term search",
-    buttons : [
-    {
-        text: "Insert",
-        click : function() {
-          var math = $(mathFrame).find(".mathquill-editable").mathquill('latex');
-          core.insert(math);
-          $(mathFrame).dialog("close");
-        }
-    }]
   });
 
 }});

@@ -20,7 +20,7 @@ define (require) ->
 		@id = id;
 		config = $.extend({
 			root_path : "",
-			stompUrl : "ws://localhost:61623", 
+			stompUrl : "ws://mathhub.info:61623", 
 			stompUser : "admin", 
 			stompPassword : "password",
 		}, config);

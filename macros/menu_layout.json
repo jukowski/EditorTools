@@ -54,8 +54,12 @@
 				"help" : "Graph"		
 			}
 		},
-		"Utilities" : {
+		"MathHub services" : {
 			"search-concept" : {
+				"href" : "icons/cmd/sc_outlineup.png",
+				"help" : "Compile"		
+			}, 
+			"add-assertion" : {
 				"href" : "icons/cmd/sc_outlineup.png",
 				"help" : "Compile"		
 			}
