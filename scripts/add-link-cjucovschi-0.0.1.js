@@ -56,6 +56,6 @@ var scriptDiv;
 
   scriptDiv.addClass("no-margins");
 
-  issuePOST("http://localhost:8080/stex-nnexus/app/link", {"forward_destination": queue, "forward_correlation":id, body: core.getText()}, "add-link-service");
+  issuePOST("http://mathhub.info:8983/sider-nnexus/app/link", {"forward_destination": queue, "forward_correlation":id, body: core.getText()}, "add-link-service");
 
 }});
