@@ -26,6 +26,15 @@ core.registerCallback = function(callback) {
   return corrid;
 }
 
+// very wasteful
+core.convertOffsetToLineCol = function(offset) {
+  var line = 0;
+  while (offset > ace.getSession().getLine(line).length) {
+    offset -=  ace.getSession().getLine(line).length;
+    line ++; 
+  }
+  return { "row": line, "column": offset };
+}
 
 core.stompRequest = function(destination, msg, callback) {
   var header = {};
@@ -62,6 +71,17 @@ core.setCursorPosition = function(pos) {
   ace.moveCursorToPosition(pos);
   return ace.clearSelection();
 };
+
+core.selectOffset = function(offset_begin, offset_end) {
+  ace.clearSelection();
+  ace.moveCursorToPosition(core.convertOffsetToLineCol(offset_begin));
+  ace.selection.selectToPosition(core.convertOffsetToLineCol(offset_end));
+}
+
+core.replaceSelection = function(text) {
+  ace.getSession().replace()
+}
+
 
 core.getSelectionText = function() {
   return ace.getSession().getTextRange(core.getSelectionRange());

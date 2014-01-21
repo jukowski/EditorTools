@@ -13,7 +13,9 @@ define (require) ->
 			return;
 		if not @stompCorrelation[corrid]?
 			return;
-		@stompCorrelation[corrid](msg);
+		val = @stompCorrelation[corrid](msg);
+		if val == true
+			return;
 		delete @stompCorrelation[corrid]
 
 	enrich_editor : (@editor, id, config={}) ->

@@ -61,8 +61,13 @@
 			}, 
 			"add-assertion" : {
 				"href" : "icons/cmd/sc_outlineup.png",
-				"help" : "Compile"		
+				"help" : "Add assertion"		
+			},
+			"add-link" : {
+				"href" : "icons/cmd/sc_outlineup.png",
+				"help" : "Link"		
 			}
+
 		}
 
 	}
