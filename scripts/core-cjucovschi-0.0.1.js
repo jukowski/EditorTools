@@ -78,8 +78,13 @@ core.selectOffset = function(offset_begin, offset_end) {
   ace.selection.selectToPosition(core.convertOffsetToLineCol(offset_end));
 }
 
-core.replaceSelection = function(text) {
-  ace.getSession().replace()
+core.replaceOffset = function(offset_begin, offset_end, text) {
+  var begin = core.convertOffsetToLineCol(offset_begin);
+  var end = core.convertOffsetToLineCol(offset_end);
+ 
+  var Range = window.ace.require('ace/range').Range;
+  var range = new Range(begin.row, begin.column, end.row, end.column);
+  ace.getSession().replace(range, text);
 }
 
 

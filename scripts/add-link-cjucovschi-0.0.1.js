@@ -16,8 +16,7 @@ var scriptDiv;
     }
 
     if (data.action == "insert") {
-      core.selectOffset(data.offset_begin, data.offset_end);
-      
+      core.replaceOffset(data.offset_begin, data.offset_end, data.replaceString);
       return true;
     }
 
@@ -57,5 +56,6 @@ var scriptDiv;
   scriptDiv.addClass("no-margins");
 
   issuePOST("http://mathhub.info:8983/sider-nnexus/app/link", {"forward_destination": queue, "forward_correlation":id, body: core.getText()}, "add-link-service");
+//  issuePOST("http://localhost:8080/sider-nnexus/app/link", {"forward_destination": queue, "forward_correlation":id, body: core.getText()}, "add-link-service");
 
 }});
