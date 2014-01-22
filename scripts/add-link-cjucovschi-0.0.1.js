@@ -40,7 +40,7 @@ var scriptDiv;
     document.body.removeChild(myForm);
   };
 
-  scriptFrame = $("<iframe>").attr("style", "width:100%; height: 100%").attr("id", "add-link-service");
+  scriptFrame = $("<iframe>").attr("style", "width:100%; height: 100%").attr("id", "add-link-service").attr("name", "add-link-service");
 
   scriptDiv = $("<div>").append(scriptFrame);
 
