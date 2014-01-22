@@ -64,7 +64,7 @@
 				"help" : "Add assertion"		
 			},
 			"add-link" : {
-				"href" : "icons/cmd/sc_addwatch.png",
+				"href" : "icons/cmd/lc_addwatch.png",
 				"help" : "Link"		
 			}
 
