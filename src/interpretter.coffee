@@ -11,6 +11,13 @@ define (req) ->
 		getImplementation: (cmd) ->
 			@env[cmd]
 
+		addImplementation: (cmd, fnc) ->
+			@env[cmd] = fnc
+
+		removeImplementation: (cmd) ->
+			delete @env[cmd]
+
+
 		exec: (script) ->
 			try
 				eval("with (this.env) { script(); }");

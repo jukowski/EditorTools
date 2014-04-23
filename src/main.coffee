@@ -3,56 +3,77 @@ define (require) ->
 	$ = jQuery if not $?;
 	Toolbar = require "editor_tools/scriptable_toolbar"
 	Interpretter = require "editor_tools/interpretter"
-	require "stomp"
-	connections = {};
-	stompCorrelation = {};
+	SallyClient = require "editor_tools/sally_client"
 
-	stompMsgHandler = (msg)->
-		corrid = msg.headers["correlation-id"];
-		if typeof(corrid) != "string"
-			return;
-		if not @stompCorrelation[corrid]?
-			return;
-		val = @stompCorrelation[corrid](msg);
-		if val == true
-			return;
-		delete @stompCorrelation[corrid]
+	planetaryNS = "http://kwarc.info/sally/comm/planetaryclient";
 
 	enrich_editor : (@editor, id, config={}) ->
 		@id = id;
 		config = $.extend({
 			root_path : "",
-			stompUrl : "ws://mathhub.info:61623", 
+			stompUrl : "ws://localhost:61614", 
 			stompUser : "admin", 
 			stompPassword : "password",
+			servletAddress : "http://localhost:8080"
 		}, config);
 
-		@onConnected = (client) ->
-			if client.connected 
-				return callback();
-			if not client.connection_div? 
-				client.connection_div = $("<div>")
-			$(client.connection_div).bind("onConnected", {editor : @editor, stompClient: @stompClient}, (e) ->
-				editor = e.data.editor;
-				stompClient = e.data.stompClient;
+		handler = (body, msg, response) ->
+			if body["GetSessionIDRequest"]? and body["GetSessionIDRequest"]["@xmlns"] == planetaryNS
+				response({"GetSessionIDResponse" : {"@xmlns" : planetaryNS, "sessionid" : "CbPJzjJT2nWJ4Rc87wag2geZzlhZ-RhgeCqf4MkOE7s"}})
+			if body.NewService?
+				interpretter.addImplementation(body.NewService.id, () ->
+					dv = $("<div>").append($("<iframe>").attr("src", body.NewService.url).attr("style", "width:100%;height:auto"));
+					$(dv).dialog();
+				)
+				homeMenu = toolbar.addMenu("Home");
+				MHWSection = toolbar.addSection(homeMenu, "MathHub services");
+				toolbar.addItem(MHWSection, body.NewService.id, body.NewService.icon);
+			if body.RemoveService?
+				interpretter.removeImplementation(body.RemoveService.id)
+				homeMenu = toolbar.addMenu("Home");
+				MHWSection = toolbar.addSection(homeMenu, "MathHub services");
+				toolbar.removeItem(MHWSection, body.RemoveService.id);
 
-				privateQueue = "/queue/editor_tools_"+Math.floor(Math.random()*100000);
-				editor.stomp = stompClient;
-				editor.stompQueue = privateQueue;
-				editor.stompCorrelation = {};
-				stompClient.subscribe(privateQueue, stompMsgHandler.bind(editor))
-			)
+		sallyclient = new SallyClient(config, handler)
+		editor.sallyclient = sallyclient;
 
-		if connections[config.stompUrl]?
-			@stompClient = connections[config.stompUrl]
-		else
-			@stompClient = Stomp.client(config.stompUrl)
-			connections[config.stompUrl] = @stompClient
-			@stompClient.connect(config.stompUser, config.stompPassword, ((frame) ->
-				$(@stompClient.connection_div).trigger("onConnected");
-				).bind(@))
+		ace.config.loadModule("ace/ext/language_tools", (tools) =>
+			editor.setOptions({
+				#enableSnippets: true,
+				enableBasicAutocompletion: true
+			});
+			tools.addCompleter({
+				getCompletions : (editor, session, pos, prefix, callback) =>
+					pos = editor.getCursorPosition()
 
-		@onConnected(@stompClient)
+					responseCallback = (_msg) ->
+						msg = JSON.parse(_msg.body);
+						res = msg.map((suggestion) ->
+								trimmedConcept = suggestion.concept
+								trimLen = 30
+								if trimmedConcept.length > trimLen
+									trimmedConcept = "..."+trimmedConcept.substr(trimmedConcept.length-trimLen, trimLen);
+								return {
+									name: suggestion.text,
+									value: suggestion.text,
+									caption: trimmedConcept
+									completer :
+										insertMatch : (editor) ->
+											editor.execCommand("insertstring", "\\trefi{"+suggestion.text+"}");
+									meta: "remote"
+								});
+
+						callback(null, res);
+
+					@stompClient.send("/queue/mathhub.autocomplete_stex", replyHeaders(editor, responseCallback), JSON.stringify(
+							"text": editor.getValue(),
+							"line" : pos.row,
+							"col" : pos.col,
+							"path" : config.file,
+							"prefix" : prefix
+						));
+				})
+			);
 
 		wrapped = $(id).wrap("<div>").parent();
 		$(id).addClass("ui-layout-center");
@@ -83,6 +104,9 @@ define (require) ->
 
 		interpretter = new Interpretter(@editor);
 		toolbar = new Toolbar(header, interpretter, config.root_path);
+
+		sallyclient.connect ["planetaryclient"], ()=>
+			console.log("connected")
 
 #		termToggle = (evt)->
 #			# if C+` was pressed

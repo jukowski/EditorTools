@@ -13,7 +13,7 @@ var id = core.registerCallback(function(msg) {
   $(scriptFrame).dialog("close");
 });
 
-scriptFrame = $("<iframe>").attr("src", "http://mathhub.info:8983/defindexer/app/search?forward_destination="+queue+"&forward_correlation="+id);
+scriptFrame = $("<iframe>").attr("src", core.getServletAddress()+"/defindexer/search?forward_destination="+queue+"&forward_correlation="+id);
   $(scriptFrame).dialog({
     width : 530,
     height: 380,

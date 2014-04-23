@@ -19,7 +19,6 @@ var scriptDiv;
       core.replaceOffset(data.offset_begin, data.offset_end, data.replaceString);
       return true;
     }
-
   });
 
   var issuePOST = function(to, p, target) {

@@ -20,6 +20,10 @@ core.getPrivateQueue = function() {
   return ace.stompQueue;
 }
 
+core.getServletAddress = function() {
+  return ace.servletAddress;
+}
+
 core.registerCallback = function(callback) {
   var corrid = Math.random()*1000000;
   ace.stompCorrelation[corrid] = callback;

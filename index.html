@@ -1,8 +1,8 @@
 <script src="/lib/ace/ace.js" type="text/javascript" charset="utf-8"></script>
 
+<script src="/lib/EventEmitter.min.js"></script>
 <script src="/lib/require.js"></script> 
 <script src="/lib/jquery-ui/jquery.js"></script>
-
 
 <script src="/lib/jquery-ui/jquery-ui.js"></script>
 <script src="/lib/underscore/underscore-min.js"></script>
@@ -48,7 +48,7 @@
         editor.getSession().setMode("ace/mode/latex");
         require(["editor_tools/main"], function(main) {
             var env = null;
-            handlers = main.enrich_editor(editor, "#editor");
+            handlers = main.enrich_editor(editor, "#editor", {stompUrl: "ws://localhost:61614", stompUser : "webclient", stompPassword : "webclient", file:"smglom/smglom/circularprime.tex", servletAddress : "http://mathhub.info:8182"});
 
             toolbar = handlers.toolbar;
             interpretter = handlers.interpretter;

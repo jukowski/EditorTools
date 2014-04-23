@@ -6,6 +6,12 @@ define (require) ->
 			@menuMap = {};
 			@initVisual(parent);
 
+		removeItem: (section, itemName) ->
+			section["__itemRoot__"].each (idx, obj) =>
+				console.log(obj);
+				if $(obj).data("id") == itemName
+					$(obj).clear();
+
 		addItem: (section, itemName, imghRef, helpText="", clear=false) ->
 			me = @
 			
@@ -13,6 +19,7 @@ define (require) ->
 			item.attr("style", item.attr("style")+";clear:both") if clear;
 			item.append($("<span>").addClass("button-help").text(helpText))
 			item.append($("<img>").addClass("ribbon-icon").attr("src", @root_path+imghRef));
+			item.data("id", itemName);
 
 			$(item).click () ->
 				impl = me.interpreter.getImplementation(itemName);
@@ -21,7 +28,6 @@ define (require) ->
 
 			$(item).mousedown (evt) -> 
 				return if evt.which != 3;
-				console.log(itemName);
 
 			section["__itemRoot__"].append(item);
 
