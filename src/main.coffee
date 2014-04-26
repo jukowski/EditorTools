@@ -12,10 +12,10 @@ define (require) ->
 		@id = id;
 		config = $.extend({
 			root_path : "",
-			stompUrl : "ws://localhost:61614", 
-			stompUser : "admin", 
-			stompPassword : "password",
-			servletAddress : "http://localhost:8080"
+			stompUrl : "ws://mathhub.info:61614", 
+			stompUser : "webclient", 
+			stompPassword : "webclient",
+			servletAddress : "http://mathhub.info:8181"
 		}, config);
 
 		handler = (body, msg, response) ->
