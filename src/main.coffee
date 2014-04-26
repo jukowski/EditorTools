@@ -6,6 +6,7 @@ define (require) ->
 	SallyClient = require "editor_tools/sally_client"
 
 	planetaryNS = "http://kwarc.info/sally/comm/planetaryclient";
+	textNS = "http://kwarc.info/sally/comm/text";
 
 	enrich_editor : (@editor, id, config={}) ->
 		@id = id;
@@ -33,6 +34,9 @@ define (require) ->
 				homeMenu = toolbar.addMenu("Home");
 				MHWSection = toolbar.addSection(homeMenu, "MathHub services");
 				toolbar.removeItem(MHWSection, body.RemoveService.id);
+			if body.GetMathHubPath?
+				response({"GetMathHubPathResponse" : {"@xmlns" : planetaryNS, "path" : "123"}});
+
 
 		sallyclient = new SallyClient(config, handler)
 		editor.sallyclient = sallyclient;
@@ -65,13 +69,16 @@ define (require) ->
 
 						callback(null, res);
 
-					@stompClient.send("/queue/mathhub.autocomplete_stex", replyHeaders(editor, responseCallback), JSON.stringify(
+					console.log(pos);
+					sallyclient.sendSally(
+						{"AutocompleteRequest" : 
+							"@xmlns" : textNS, 
 							"text": editor.getValue(),
 							"line" : pos.row,
-							"col" : pos.col,
+							"col" : pos.column,
 							"path" : config.file,
 							"prefix" : prefix
-						));
+						}, responseCallback);
 				})
 			);
 
@@ -105,7 +112,7 @@ define (require) ->
 		interpretter = new Interpretter(@editor);
 		toolbar = new Toolbar(header, interpretter, config.root_path);
 
-		sallyclient.connect ["planetaryclient"], ()=>
+		sallyclient.connect ["planetaryclient", "theo"], ()=>
 			console.log("connected")
 
 #		termToggle = (evt)->

@@ -50,6 +50,7 @@ define (require) ->
       @send(@sally_queue, msg, callback, headers)
 
     send : (destination, msg, callback, headers) ->
+      console.log(msg);
       if typeof msg == "object"
         msg = xml2json.json2xml(msg)
 
@@ -63,12 +64,11 @@ define (require) ->
           @stompClient.unsubscribe(corrid);
         , {"id" : corrid})
 
-        console.log(sub, @stompClient.subscribe);
-
         headers ?= {};
         headers["reply-to"] = queue_post;
         headers["correlation-id"] = corrid;
 
+      console.log("sending to ", destination,  " msg ", msg)
       @stompClient.send(destination, headers, msg.toString())
 
     stompMsgHandler : (msg) =>
