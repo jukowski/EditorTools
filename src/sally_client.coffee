@@ -23,7 +23,7 @@ define (require) ->
         @stompClient = Stomp.client(config.stompUrl)
         connections[config.stompUrl] = @stompClient
         @stompClient.connect(config.stompUser, config.stompPassword, ((frame) ->
-          $(@stompClient.connection_div).trigger("onConnected");
+          jQuery(@stompClient.connection_div).trigger("onConnected");
           ).bind(@))
 
     registerDocument : (interfaces, callback) =>
@@ -38,9 +38,9 @@ define (require) ->
       if client.connected 
         return callback();
       if not client.connection_div? 
-        client.connection_div = $("<div>")
+        client.connection_div = jQuery("<div>")
 
-      $(client.connection_div).bind("onConnected", (e) =>
+      jQuery(client.connection_div).bind("onConnected", (e) =>
         @privateQueue = "editor_tools_"+Math.floor(Math.random()*100000);
         @stompClient.subscribe("/queue/"+@privateQueue, @stompMsgHandler)
         @registerDocument(@interfaces, callback)
