@@ -18,7 +18,9 @@ define (require) ->
 			item = $("<div>").addClass("ribbon-button").attr("style","float:left");
 			item.attr("style", item.attr("style")+";clear:both") if clear;
 			item.append($("<span>").addClass("button-help").text(helpText))
-			item.append($("<img>").addClass("ribbon-icon").attr("src", @root_path+imghRef));
+			if imghRef.indexOf("http") != 0
+				imghRef = @root_path+imghRef;
+			item.append($("<img>").addClass("ribbon-icon").attr("src", imghRef));
 			item.data("id", itemName);
 
 			$(item).click () ->
