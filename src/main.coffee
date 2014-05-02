@@ -15,7 +15,8 @@ define (require) ->
 			stompUrl : "ws://mathhub.info:61614", 
 			stompUser : "webclient", 
 			stompPassword : "webclient",
-			servletAddress : "http://mathhub.info:8181"
+			envid : "random_edit"+Math.random();
+			servletAddress : "http://mathhub.info:8181",
 		}, config);
 
 		handler = (body, msg, response) ->
@@ -112,7 +113,7 @@ define (require) ->
 		interpretter = new Interpretter(@editor);
 		toolbar = new Toolbar(header, interpretter, config.root_path);
 
-		sallyclient.connect ["planetaryclient", "theo"], ()=>
+		sallyclient.connect ["planetaryclient", "theo"], config.envid, ()=>
 			console.log("connected")
 
 #		termToggle = (evt)->

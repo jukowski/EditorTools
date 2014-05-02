@@ -3,12 +3,12 @@ define (require) ->
   require "stomp"
   xml2json = require "xml2json"
 
-  createRegisterDocument = (docQueue, theoQueue, interfaces) ->
+  createRegisterDocument = (docQueue, envid, interfaces) ->
     {
       "registerdocument" : 
         "@xmlns" : "http://kwarc.info/sally/comm/core"
         "documentqueue" : docQueue,
-        "environmentid" : "random_edit_"+Math.random(),
+        "environmentid" : envid,
         "interfaces" : interfaces
     }
 
@@ -26,14 +26,14 @@ define (require) ->
           jQuery(@stompClient.connection_div).trigger("onConnected");
           ).bind(@))
 
-    registerDocument : (interfaces, callback) =>
-      msg = createRegisterDocument(@privateQueue, @privateQueue+"_theo", interfaces)
+    registerDocument : (interfaces, envid, callback) =>
+      msg = createRegisterDocument(@privateQueue, envid, interfaces)
       @send("/queue/sally_register", msg, (msg) =>
         @sally_queue = msg["registerdocumentresponse"]["sallyqueue"];
         callback();
         )
 
-    connect : (@interfaces, callback) ->
+    connect : (@interfaces, envid, callback) ->
       client = @stompClient
       if client.connected 
         return callback();
@@ -43,7 +43,7 @@ define (require) ->
       jQuery(client.connection_div).bind("onConnected", (e) =>
         @privateQueue = "editor_tools_"+Math.floor(Math.random()*100000);
         @stompClient.subscribe("/queue/"+@privateQueue, @stompMsgHandler)
-        @registerDocument(@interfaces, callback)
+        @registerDocument(@interfaces, envid, callback)
       )
 
     sendSally : (msg, callback, headers) ->
