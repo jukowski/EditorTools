@@ -6,7 +6,7 @@ define (require) ->
 	SallyClient = require "editor_tools/sally_client"
 
 	planetaryNS = "http://kwarc.info/sally/comm/planetaryclient";
-	textNS = "http://kwarc.info/sally/comm/text";
+	textNS = "http://kwarc.info/sally/comm/planetaryclient";
 
 	enrich_editor : (@editor, id, config={}) ->
 		@id = id;
@@ -52,7 +52,13 @@ define (require) ->
 					pos = editor.getCursorPosition()
 
 					responseCallback = (_msg) ->
-						msg = JSON.parse(_msg.body);
+						_msg = _msg.AutocompleteResponse;
+						if (not _msg? or not _msg.suggestion?)
+							return true;
+						if typeof(_msg) == "object" # just one result
+							msg = [ _msg.suggestion ];
+						else
+							msg = _msg.suggestion;
 						res = msg.map((suggestion) ->
 								trimmedConcept = suggestion.concept
 								trimLen = 30
@@ -67,10 +73,9 @@ define (require) ->
 											editor.execCommand("insertstring", "\\trefi{"+suggestion.text+"}");
 									meta: "remote"
 								});
-
 						callback(null, res);
+						return true
 
-					console.log(pos);
 					sallyclient.sendSally(
 						{"AutocompleteRequest" : 
 							"@xmlns" : textNS, 
