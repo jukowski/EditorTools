@@ -55,7 +55,7 @@ define (require) ->
 						_msg = _msg.AutocompleteResponse;
 						if (not _msg? or not _msg.suggestion?)
 							return true;
-						if typeof(_msg) == "object" # just one result
+						if not _msg.hasOwnProperty("length") # just one result
 							msg = [ _msg.suggestion ];
 						else
 							msg = _msg.suggestion;
@@ -75,6 +75,7 @@ define (require) ->
 								});
 						callback(null, res);
 						return true
+						
 
 					sallyclient.sendSally(
 						{"AutocompleteRequest" : 
