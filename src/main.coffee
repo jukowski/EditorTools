@@ -17,11 +17,12 @@ define (require) ->
 			stompPassword : "webclient",
 			envid : "random_edit"+Math.random();
 			servletAddress : "http://mathhub.info:8181",
+			sid : ""
 		}, config);
 
 		handler = (body, msg, response) ->
 			if body["GetSessionIDRequest"]? and body["GetSessionIDRequest"]["@xmlns"] == planetaryNS
-				response({"GetSessionIDResponse" : {"@xmlns" : planetaryNS, "sessionid" : "CbPJzjJT2nWJ4Rc87wag2geZzlhZ-RhgeCqf4MkOE7s"}})
+				response({"GetSessionIDResponse" : {"@xmlns" : planetaryNS, "sessionid" : config.sid}})
 			if body.NewService?
 				interpretter.addImplementation(body.NewService.id, () ->
 					dv = $("<div>").append($("<iframe>").attr("src", body.NewService.url).attr("style", "width:100%;height:auto"));

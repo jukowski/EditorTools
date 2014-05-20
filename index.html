@@ -48,7 +48,7 @@
         editor.getSession().setMode("ace/mode/latex");
         require(["editor_tools/main"], function(main) {
             var env = null;
-            handlers = main.enrich_editor(editor, "#editor", {stompUrl: "ws://localhost:61614", stompUser : "webclient", stompPassword : "webclient", file:"smglom/smglom/circularprime.tex", envid : "123456"});
+            handlers = main.enrich_editor(editor, "#editor", {stompUrl: "ws://localhost:61614", stompUser : "webclient", stompPassword : "webclient", file:"smglom/smglom/circularprime.tex", envid : "123456", "sid" : "CbPJzjJT2nWJ4Rc87wag2geZzlhZ-RhgeCqf4MkOE7s"});
 
             toolbar = handlers.toolbar;
             interpretter = handlers.interpretter;
