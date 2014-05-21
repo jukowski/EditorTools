@@ -21,8 +21,8 @@ define (require) ->
 		}, config);
 
 		handler = (body, msg, response) ->
-			if body["GetSessionIDRequest"]? and body["GetSessionIDRequest"]["@xmlns"] == planetaryNS
-				response({"GetSessionIDResponse" : {"@xmlns" : planetaryNS, "sessionid" : config.sid}})
+			if body["GetDocumentMeta"]? and body["GetDocumentMeta"]["@xmlns"] == planetaryNS
+				response({"GetDocumentMetaResponse" : {"@xmlns" : planetaryNS, "sessionid" : config.sid, "filepath" : config.file}})
 			if body.NewService?
 				interpretter.addImplementation(body.NewService.id, () ->
 					dv = $("<div>").append($("<iframe>").attr("src", body.NewService.url).attr("style", "width:100%;height:auto"));
@@ -36,8 +36,6 @@ define (require) ->
 				homeMenu = toolbar.addMenu("Home");
 				MHWSection = toolbar.addSection(homeMenu, "MathHub services");
 				toolbar.removeItem(MHWSection, body.RemoveService.id);
-			if body.GetMathHubPath?
-				response({"GetMathHubPathResponse" : {"@xmlns" : planetaryNS, "path" : "123"}});
 
 
 		sallyclient = new SallyClient(config, handler)
