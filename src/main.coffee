@@ -25,8 +25,18 @@ define (require) ->
 				response({"GetDocumentMetaResponse" : {"@xmlns" : planetaryNS, "sessionid" : config.sid, "filepath" : config.file}})
 			if body.NewService?
 				interpretter.addImplementation(body.NewService.id, () ->
-					dv = $("<div>").append($("<iframe>").attr("src", body.NewService.url).attr("style", "width:100%;height:auto"));
-					$(dv).dialog();
+					frame = $("<iframe>").attr("src", body.NewService.url).css("width", "100%");
+					dv = $("<div>").append(frame).css("overflow", "hidden");
+					width = height = "auto"
+					width = body.NewService.width if body.NewService.width?
+					height = body.NewService.height if body.NewService.height?
+					$(dv).dialog({
+						title: body.NewService.name
+						height : height,
+						width : width,
+						resize: (e, ui) ->
+							frame.css("height", "100%")
+					});
 				)
 				homeMenu = toolbar.addMenu("Home");
 				MHWSection = toolbar.addSection(homeMenu, "MathHub services");
