@@ -71,6 +71,11 @@ define (require) ->
 						else
 							msg = _msg.suggestion;
 						res = msg.map((suggestion) ->
+								if (not suggestion.concept?)
+									return;
+								if (not suggestion.text?)
+									return;
+
 								trimmedConcept = suggestion.concept
 								trimLen = 30
 								if trimmedConcept.length > trimLen
