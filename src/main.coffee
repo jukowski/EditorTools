@@ -23,6 +23,8 @@ define (require) ->
 		handler = (body, msg, response) ->
 			if body["GetDocumentMeta"]? and body["GetDocumentMeta"]["@xmlns"] == planetaryNS
 				response({"GetDocumentMetaResponse" : {"@xmlns" : planetaryNS, "sessionid" : config.sid, "filepath" : config.file}})
+			if body["GetText"]? and body["GetText"]["@xmlns"] == planetaryNS
+				response({"GetTextResponse" : {"@xmlns" : planetaryNS, "text" : editor.getValue()}})
 			if body.NewService?
 				interpretter.addImplementation(body.NewService.id, () ->
 					frame = $("<iframe>").attr("src", body.NewService.url).css("width", "100%");
