@@ -41,12 +41,12 @@ define (require) ->
 					});
 				)
 				homeMenu = toolbar.addMenu("Home");
-				MHWSection = toolbar.addSection(homeMenu, "MathHub services");
+				MHWSection = toolbar.addSection(homeMenu, "MH");
 				toolbar.addItem(MHWSection, body.NewService.id, body.NewService.icon);
 			if body.RemoveService?
 				interpretter.removeImplementation(body.RemoveService.id)
 				homeMenu = toolbar.addMenu("Home");
-				MHWSection = toolbar.addSection(homeMenu, "MathHub services");
+				MHWSection = toolbar.addSection(homeMenu, "MH");
 				toolbar.removeItem(MHWSection, body.RemoveService.id);
 
 
@@ -55,7 +55,7 @@ define (require) ->
 
 		ace.config.loadModule("ace/ext/language_tools", (tools) =>
 			editor.setOptions({
-				#enableSnippets: true,
+				#enableSnippets: false,
 				enableBasicAutocompletion: true
 			});
 			tools.addCompleter({
@@ -86,7 +86,7 @@ define (require) ->
 									caption: trimmedConcept
 									completer :
 										insertMatch : (editor) ->
-											editor.execCommand("insertstring", "\\trefi{"+suggestion.text+"}");
+											editor.execCommand("insertstring", suggestion.text);
 									meta: "remote"
 								});
 						callback(null, res);
