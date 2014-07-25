@@ -27,11 +27,13 @@ define (require) ->
 				response({"GetTextResponse" : {"@xmlns" : planetaryNS, "text" : editor.getValue()}})
 			if body.NewService?
 				interpretter.addImplementation(body.NewService.id, () ->
-					frame = $("<iframe>").attr("src", body.NewService.url).css("width", "100%");
-					dv = $("<div>").append(frame).css("overflow", "hidden");
 					width = height = "auto"
 					width = body.NewService.width if body.NewService.width?
 					height = body.NewService.height if body.NewService.height?
+
+					frame = $("<iframe>").attr("src", body.NewService.url).css("width", "100%").attr("frameborder", 0).attr("marginwidth", 0).attr("marginheight", 0).css("height", height);
+
+					dv = $("<div>").append(frame).css("overflow", "hidden");
 					$(dv).dialog({
 						title: body.NewService.name
 						height : height,
