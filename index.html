@@ -1,11 +1,10 @@
 <script src="/lib/ace/ace.js" type="text/javascript" charset="utf-8"></script>
 
-<script src="/lib/EventEmitter.min.js"></script>
 <script src="/lib/require.js"></script> 
 <script src="/lib/jquery-ui/jquery.js"></script>
+<script type="text/javascript" src="/lib/underscore-min.js"></script>
 
 <script src="/lib/jquery-ui/jquery-ui.js"></script>
-<script src="/lib/underscore/underscore-min.js"></script>
 <script src="/lib/jobad/build/release/JOBAD.js"></script>
 
 <!--<script src="/lib/jobad/js/JOBAD.template.js"></script> -->
@@ -38,7 +37,13 @@
     <script type="text/javascript">
         require.config({
             paths: {
-                    "main": "editor_utils.min"
+                    "main": "editor_utils.min",
+                    "sally_client" : "extlibs/sally_client",
+                    "EventEmitter" : "/lib/EventEmitter.min",
+                    "theo" : "extlibs/theo",
+                    "frames" : "extlibs/frames",
+                    "text" : "extlibs/text",
+                    "repository" : "extlibs/repository",
             }
         });
 
@@ -46,9 +51,9 @@
         editor.setTheme("ace/theme/textmate");
 
         editor.getSession().setMode("ace/mode/latex");
-        require(["editor_tools/main"], function(main) {
+        require(["editor_tools/main", "sally_client", "theo", "frames", "text", "repository"], function(main, SallyClient, Theo, Frames, Text, Repository) {
             var env = null;
-            handlers = main.enrich_editor(editor, "#editor", {stompUrl: "ws://localhost:61614", stompUser : "webclient", stompPassword : "webclient", file:"smglom/smglom/circularprime.tex", envid : "123456", "sid" : "CbPJzjJT2nWJ4Rc87wag2geZzlhZ-RhgeCqf4MkOE7s"});
+            handlers = main.enrich_editor(editor, "#editor", {root_path : ""});
 
             toolbar = handlers.toolbar;
             interpretter = handlers.interpretter;
@@ -62,6 +67,31 @@
               env = interpretter.loadAPI(data);
               jQuery(handlers.header).find(".ribbon").ribbon();
             });
+
+            var theo = new Theo();
+            var frames = new Frames();
+            var text = new Text();
+            
+            var menu = toolbar.addMenu("Home");
+            var section = toolbar.addSection(menu, "MathHub");
+
+            frames.on("NewDocLevelService", function(msg) {
+              toolbar.addItem(section, msg.id, msg.icon)
+              interpretter.addImplementation(msg.id, function() {
+                frames.executeDocLevelService(msg.id);
+              });
+            });
+
+            frames.on("RemoveDocLevelService", function(msg) {
+              toolbar.removeItem(section, msg.id)
+            });
+
+            client = new SallyClient({stompUrl: "ws://localhost:61614", stompUser : "webclient", stompPassword : "webclient"});
+
+            client.register([theo, frames, text], "env"+Math.floor(Math.random()*100000), function() {
+
+            });
+
         });
 
 
