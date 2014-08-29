@@ -95,12 +95,13 @@ else {
 var __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-define('frames',['require','sally_client','info_kwarc_sally_comm_frames','EventEmitter'],function(require) {
-  var EventEmitter, Frames, context, createShowSallyFrameMenu, executeDocLevelService, marshaller, unmarshaller;
+define('frames',['require','sally_client','info_kwarc_sally_comm_frames','EventEmitter','jsonix'],function(require) {
+  var EventEmitter, Frames, Jsonix, context, createShowSallyFrameMenu, executeDocLevelService, frames, marshaller, unmarshaller;
   require("sally_client");
-  require("info_kwarc_sally_comm_frames");
+  frames = require("info_kwarc_sally_comm_frames");
   EventEmitter = require("EventEmitter");
-  context = new Jsonix.Context([info_kwarc_sally_comm_frames]);
+  Jsonix = (require("jsonix")).Jsonix;
+  context = new Jsonix.Context([frames.info_kwarc_sally_comm_frames]);
   marshaller = context.createMarshaller();
   unmarshaller = context.createUnmarshaller();
   createShowSallyFrameMenu = function(x, y) {

@@ -1,157 +1,171 @@
-var info_kwarc_sally_comm_text = {
-  name: 'info_kwarc_sally_comm_text',
-  defaultElementNamespaceURI: 'http:\/\/kwarc.info\/sally\/comm\/text',
-  typeInfos: [{
-      type: 'classInfo',
-      localName: 'SelectText',
-      propertyInfos: [{
-          type: 'element',
-          name: 'startrow',
-          elementName: 'startrow',
-          typeInfo: 'Int'
-        }, {
-          type: 'element',
-          name: 'endrow',
-          elementName: 'endrow',
-          typeInfo: 'Int'
-        }, {
-          type: 'element',
-          name: 'startcolumn',
-          elementName: 'startcolumn',
-          typeInfo: 'Int'
-        }, {
-          type: 'element',
-          name: 'endcolumn',
-          elementName: 'endcolumn',
-          typeInfo: 'Int'
-        }]
-    }, {
-      type: 'classInfo',
-      localName: 'GetCurrentSelection',
-      propertyInfos: []
-    }, {
-      type: 'classInfo',
-      localName: 'GetText',
-      propertyInfos: []
-    }, {
-      type: 'classInfo',
-      localName: 'AutocompleteResponse',
-      propertyInfos: [{
-          type: 'element',
-          name: 'suggestion',
-          collection: true,
-          elementName: 'suggestion',
-          typeInfo: 'info_kwarc_sally_comm_text.AutocompleteResponse.Suggestion'
-        }]
-    }, {
-      type: 'classInfo',
-      localName: 'AutocompleteResponse.Suggestion',
-      propertyInfos: [{
-          type: 'element',
-          name: 'concept',
-          elementName: 'concept',
-          typeInfo: 'String'
-        }, {
-          type: 'element',
-          name: 'text',
-          elementName: 'text',
-          typeInfo: 'String'
-        }]
-    }, {
-      type: 'classInfo',
-      localName: 'AutocompleteRequest',
-      propertyInfos: [{
-          type: 'element',
-          name: 'path',
-          elementName: 'path',
-          typeInfo: 'String'
-        }, {
-          type: 'element',
-          name: 'text',
-          elementName: 'text',
-          typeInfo: 'String'
-        }, {
-          type: 'element',
-          name: 'prefix',
-          elementName: 'prefix',
-          typeInfo: 'String'
-        }, {
-          type: 'element',
-          name: 'col',
-          elementName: 'col',
-          typeInfo: 'Int'
-        }, {
-          type: 'element',
-          name: 'line',
-          elementName: 'line',
-          typeInfo: 'Int'
-        }]
-    }, {
-      type: 'classInfo',
-      localName: 'GetCurrentSelectionResponse',
-      propertyInfos: [{
-          type: 'element',
-          name: 'startrow',
-          elementName: 'startrow',
-          typeInfo: 'Int'
-        }, {
-          type: 'element',
-          name: 'endrow',
-          elementName: 'endrow',
-          typeInfo: 'Int'
-        }, {
-          type: 'element',
-          name: 'startcolumn',
-          elementName: 'startcolumn',
-          typeInfo: 'Int'
-        }, {
-          type: 'element',
-          name: 'endcolumn',
-          elementName: 'endcolumn',
-          typeInfo: 'Int'
-        }]
-    }, {
-      type: 'classInfo',
-      localName: 'GetTextResponse',
-      propertyInfos: [{
-          type: 'element',
-          name: 'text',
-          elementName: 'text',
-          typeInfo: 'String'
-        }]
-    }],
-  elementInfos: [{
-      elementName: 'SelectText',
-      typeInfo: 'info_kwarc_sally_comm_text.SelectText'
-    }, {
-      elementName: 'GetCurrentSelection',
-      typeInfo: 'info_kwarc_sally_comm_text.GetCurrentSelection'
-    }, {
-      elementName: 'GetText',
-      typeInfo: 'info_kwarc_sally_comm_text.GetText'
-    }, {
-      elementName: 'AutocompleteResponse',
-      typeInfo: 'info_kwarc_sally_comm_text.AutocompleteResponse'
-    }, {
-      elementName: 'AutocompleteRequest',
-      typeInfo: 'info_kwarc_sally_comm_text.AutocompleteRequest'
-    }, {
-      elementName: 'GetCurrentSelectionResponse',
-      typeInfo: 'info_kwarc_sally_comm_text.GetCurrentSelectionResponse'
-    }, {
-      elementName: 'GetTextResponse',
-      typeInfo: 'info_kwarc_sally_comm_text.GetTextResponse'
-    }]
+var _info_kwarc_sally_comm_text_factory = function () {
+  var info_kwarc_sally_comm_text = {
+    name: 'info_kwarc_sally_comm_text',
+    defaultElementNamespaceURI: 'http:\/\/kwarc.info\/sally\/comm\/text',
+    typeInfos: [{
+        type: 'classInfo',
+        localName: 'SelectText',
+        propertyInfos: [{
+            type: 'element',
+            name: 'startrow',
+            elementName: 'startrow',
+            typeInfo: 'Int'
+          }, {
+            type: 'element',
+            name: 'endrow',
+            elementName: 'endrow',
+            typeInfo: 'Int'
+          }, {
+            type: 'element',
+            name: 'startcolumn',
+            elementName: 'startcolumn',
+            typeInfo: 'Int'
+          }, {
+            type: 'element',
+            name: 'endcolumn',
+            elementName: 'endcolumn',
+            typeInfo: 'Int'
+          }]
+      }, {
+        type: 'classInfo',
+        localName: 'GetCurrentSelection',
+        propertyInfos: []
+      }, {
+        type: 'classInfo',
+        localName: 'GetText',
+        propertyInfos: []
+      }, {
+        type: 'classInfo',
+        localName: 'AutocompleteResponse',
+        propertyInfos: [{
+            type: 'element',
+            name: 'suggestion',
+            collection: true,
+            elementName: 'suggestion',
+            typeInfo: 'info_kwarc_sally_comm_text.AutocompleteResponse.Suggestion'
+          }]
+      }, {
+        type: 'classInfo',
+        localName: 'AutocompleteResponse.Suggestion',
+        propertyInfos: [{
+            type: 'element',
+            name: 'concept',
+            elementName: 'concept',
+            typeInfo: 'String'
+          }, {
+            type: 'element',
+            name: 'text',
+            elementName: 'text',
+            typeInfo: 'String'
+          }]
+      }, {
+        type: 'classInfo',
+        localName: 'AutocompleteRequest',
+        propertyInfos: [{
+            type: 'element',
+            name: 'path',
+            elementName: 'path',
+            typeInfo: 'String'
+          }, {
+            type: 'element',
+            name: 'text',
+            elementName: 'text',
+            typeInfo: 'String'
+          }, {
+            type: 'element',
+            name: 'prefix',
+            elementName: 'prefix',
+            typeInfo: 'String'
+          }, {
+            type: 'element',
+            name: 'col',
+            elementName: 'col',
+            typeInfo: 'Int'
+          }, {
+            type: 'element',
+            name: 'line',
+            elementName: 'line',
+            typeInfo: 'Int'
+          }]
+      }, {
+        type: 'classInfo',
+        localName: 'GetCurrentSelectionResponse',
+        propertyInfos: [{
+            type: 'element',
+            name: 'startrow',
+            elementName: 'startrow',
+            typeInfo: 'Int'
+          }, {
+            type: 'element',
+            name: 'endrow',
+            elementName: 'endrow',
+            typeInfo: 'Int'
+          }, {
+            type: 'element',
+            name: 'startcolumn',
+            elementName: 'startcolumn',
+            typeInfo: 'Int'
+          }, {
+            type: 'element',
+            name: 'endcolumn',
+            elementName: 'endcolumn',
+            typeInfo: 'Int'
+          }]
+      }, {
+        type: 'classInfo',
+        localName: 'GetTextResponse',
+        propertyInfos: [{
+            type: 'element',
+            name: 'text',
+            elementName: 'text',
+            typeInfo: 'String'
+          }]
+      }],
+    elementInfos: [{
+        elementName: 'SelectText',
+        typeInfo: 'info_kwarc_sally_comm_text.SelectText'
+      }, {
+        elementName: 'GetCurrentSelection',
+        typeInfo: 'info_kwarc_sally_comm_text.GetCurrentSelection'
+      }, {
+        elementName: 'GetText',
+        typeInfo: 'info_kwarc_sally_comm_text.GetText'
+      }, {
+        elementName: 'AutocompleteResponse',
+        typeInfo: 'info_kwarc_sally_comm_text.AutocompleteResponse'
+      }, {
+        elementName: 'AutocompleteRequest',
+        typeInfo: 'info_kwarc_sally_comm_text.AutocompleteRequest'
+      }, {
+        elementName: 'GetCurrentSelectionResponse',
+        typeInfo: 'info_kwarc_sally_comm_text.GetCurrentSelectionResponse'
+      }, {
+        elementName: 'GetTextResponse',
+        typeInfo: 'info_kwarc_sally_comm_text.GetTextResponse'
+      }]
+  };
+  return {
+    info_kwarc_sally_comm_text: info_kwarc_sally_comm_text
+  };
 };
-
-define("info_kwarc_sally_comm_text", function(){});
-
+if (typeof define === 'function' && define.amd) {
+  define('info_kwarc_sally_comm_text',[], _info_kwarc_sally_comm_text_factory);
+}
+else {
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports.info_kwarc_sally_comm_text = _info_kwarc_sally_comm_text_factory().info_kwarc_sally_comm_text;
+  }
+  else {
+    var info_kwarc_sally_comm_text = _info_kwarc_sally_comm_text_factory().info_kwarc_sally_comm_text;
+  }
+};
 // Generated by CoffeeScript 1.7.1
-define('text',['require','sally_client','info_kwarc_sally_comm_text'],function(require) {
-  var Text, context, marshaller, unmarshaller;
+define('text',['require','sally_client','info_kwarc_sally_comm_text','jsonix'],function(require) {
+  var Jsonix, Text, context, marshaller, text, unmarshaller;
   require("sally_client");
-  require("info_kwarc_sally_comm_text");
-  context = new Jsonix.Context([info_kwarc_sally_comm_text]);
+  text = require("info_kwarc_sally_comm_text");
+  Jsonix = (require("jsonix")).Jsonix;
+  context = new Jsonix.Context([text.info_kwarc_sally_comm_text]);
   marshaller = context.createMarshaller();
   unmarshaller = context.createUnmarshaller();
   return Text = (function() {
