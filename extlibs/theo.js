@@ -100,7 +100,6 @@ define('theo',['require','sally_client','info_kwarc_sally_comm_theo','jsonix'],f
     return id.substr(0, length);
   };
   openedWindows = {};
-  context = new Jsonix.Context([info_kwarc_sally_comm_theo]);
   marshaller = context.createMarshaller();
   unmarshaller = context.createUnmarshaller();
   return Theo = (function() {
