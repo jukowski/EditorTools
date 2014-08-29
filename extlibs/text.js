@@ -3,6 +3,34 @@ var info_kwarc_sally_comm_text = {
   defaultElementNamespaceURI: 'http:\/\/kwarc.info\/sally\/comm\/text',
   typeInfos: [{
       type: 'classInfo',
+      localName: 'SelectText',
+      propertyInfos: [{
+          type: 'element',
+          name: 'startrow',
+          elementName: 'startrow',
+          typeInfo: 'Int'
+        }, {
+          type: 'element',
+          name: 'endrow',
+          elementName: 'endrow',
+          typeInfo: 'Int'
+        }, {
+          type: 'element',
+          name: 'startcolumn',
+          elementName: 'startcolumn',
+          typeInfo: 'Int'
+        }, {
+          type: 'element',
+          name: 'endcolumn',
+          elementName: 'endcolumn',
+          typeInfo: 'Int'
+        }]
+    }, {
+      type: 'classInfo',
+      localName: 'GetCurrentSelection',
+      propertyInfos: []
+    }, {
+      type: 'classInfo',
       localName: 'GetText',
       propertyInfos: []
     }, {
@@ -60,6 +88,30 @@ var info_kwarc_sally_comm_text = {
         }]
     }, {
       type: 'classInfo',
+      localName: 'GetCurrentSelectionResponse',
+      propertyInfos: [{
+          type: 'element',
+          name: 'startrow',
+          elementName: 'startrow',
+          typeInfo: 'Int'
+        }, {
+          type: 'element',
+          name: 'endrow',
+          elementName: 'endrow',
+          typeInfo: 'Int'
+        }, {
+          type: 'element',
+          name: 'startcolumn',
+          elementName: 'startcolumn',
+          typeInfo: 'Int'
+        }, {
+          type: 'element',
+          name: 'endcolumn',
+          elementName: 'endcolumn',
+          typeInfo: 'Int'
+        }]
+    }, {
+      type: 'classInfo',
       localName: 'GetTextResponse',
       propertyInfos: [{
           type: 'element',
@@ -69,6 +121,12 @@ var info_kwarc_sally_comm_text = {
         }]
     }],
   elementInfos: [{
+      elementName: 'SelectText',
+      typeInfo: 'info_kwarc_sally_comm_text.SelectText'
+    }, {
+      elementName: 'GetCurrentSelection',
+      typeInfo: 'info_kwarc_sally_comm_text.GetCurrentSelection'
+    }, {
       elementName: 'GetText',
       typeInfo: 'info_kwarc_sally_comm_text.GetText'
     }, {
@@ -77,6 +135,9 @@ var info_kwarc_sally_comm_text = {
     }, {
       elementName: 'AutocompleteRequest',
       typeInfo: 'info_kwarc_sally_comm_text.AutocompleteRequest'
+    }, {
+      elementName: 'GetCurrentSelectionResponse',
+      typeInfo: 'info_kwarc_sally_comm_text.GetCurrentSelectionResponse'
     }, {
       elementName: 'GetTextResponse',
       typeInfo: 'info_kwarc_sally_comm_text.GetTextResponse'
@@ -94,10 +155,8 @@ define('text',['require','sally_client','info_kwarc_sally_comm_text'],function(r
   marshaller = context.createMarshaller();
   unmarshaller = context.createUnmarshaller();
   return Text = (function() {
-    function Text(repoURL, docPath, repoInstanceID) {
-      this.repoURL = repoURL;
-      this.docPath = docPath;
-      this.repoInstanceID = repoInstanceID != null ? repoInstanceID : null;
+    function Text(ace) {
+      this.ace = ace;
     }
 
     Text.prototype.getName = function() {
@@ -112,7 +171,50 @@ define('text',['require','sally_client','info_kwarc_sally_comm_text'],function(r
       return unmarshaller.unmarshalString(str);
     };
 
-    Text.prototype.handleMessage = function(msg, sendBack) {};
+    Text.prototype.handleMessage = function(msg, sendBack) {
+      var response, sel, v;
+      if (msg.name.localPart === "GetText") {
+        response = {
+          name: {
+            localPart: "GetTextResponse",
+            namespaceURI: "http://kwarc.info/sally/comm/text"
+          },
+          value: {
+            "text": this.ace.getSession().getValue()
+          }
+        };
+        return sendBack(response);
+      }
+      if (msg.name.localPart === "GetCurrentSelection") {
+        sel = this.ace.getSelectionRange();
+        response = {
+          name: {
+            localPart: "GetCurrentSelectionResponse",
+            namespaceURI: "http://kwarc.info/sally/comm/text"
+          },
+          value: {
+            "startrow": sel.start.row,
+            "startcolumn": sel.start.column,
+            "endrow": sel.end.row,
+            "endcolumn": sel.end.column
+          }
+        };
+        return sendBack(response);
+      }
+      if (msg.name.localPart === "SelectText") {
+        v = msg.value;
+        return this.ace.selection.setRange({
+          start: {
+            row: v.startrow,
+            column: v.startcolumn
+          },
+          end: {
+            row: v.endrow,
+            column: v.endcolumn
+          }
+        });
+      }
+    };
 
     return Text;
 
