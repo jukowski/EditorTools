@@ -1,0 +1,1 @@
+/var/www/client-js/release/mathhubdocument.js

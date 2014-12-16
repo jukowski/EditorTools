@@ -4,17 +4,7 @@
 <script src="/lib/jquery-ui/jquery.js"></script>
 
 <script src="/lib/jquery-ui/jquery-ui.js"></script>
-
-<!--<script src="/lib/jobad/js/JOBAD.template.js"></script> -->
-
-<script src="/lib/office-ribbon/ribbon/ribbon.js" type="text/javascript"></script>
-<link href="/lib//office-ribbon/ribbon/ribbon.css" rel="Stylesheet" type="text/css" />
 <link href="/lib/jquery-ui/css/smoothness/jquery-ui.css" rel="Stylesheet" type="text/css" />
-
-<script type="text/javascript" src="/lib/jquery.terminal/jquery.terminal-min.js"></script>
-<script type="text/javascript" src="/lib/jquery.layout-latest.min.js"></script>
-
-<link rel="stylesheet" type="text/css" href="/lib/jquery.terminal/css/jquery.terminal.css" />
 
 <link rel="stylesheet" type="text/css" href="editor_tools.css" />
 
@@ -37,8 +27,7 @@
                     "EventEmitter" : "/lib/EventEmitter.min",
                     "theo" : "extlibs/theo",
                     "frames" : "extlibs/frames",
-                    "text" : "extlibs/text",
-                    "repository" : "extlibs/repository",
+                    "mathhubdocument" : "extlibs/mathhubdocument",
             }
         });
 
@@ -46,45 +35,30 @@
         editor.setTheme("ace/theme/textmate");
 
         editor.getSession().setMode("ace/mode/latex");
-        require(["editor_tools/main", "sally_client", "theo", "frames", "text", "repository"], function(main, SallyClient, Theo, Frames, Text, Repository) {
+        require(["editor_tools/main", "sally_client", "theo", "frames", "mathhubdocument"], function(EditorTools, SallyClient, Theo, Frames, MathHubDocument) {
             var env = null;
-            handlers = main.enrich_editor(editor, "#editor", {root_path : ""});
+            editor_tools = new EditorTools(editor, "#editor");
 
-            toolbar = handlers.toolbar;
-            interpretter = handlers.interpretter;
-
-            jQuery.get("macros/menu_layout.json", function (data) {
-              toolbar.loadLayout(data);
-              jQuery(handlers.header).find(".ribbon").ribbon(); 
-            });
-
-            jQuery.get("macros/preferences.json", function (data) {
-              env = interpretter.loadAPI(data);
-              jQuery(handlers.header).find(".ribbon").ribbon();
-            });
+            toolbar = editor_tools.getToolbar();
 
             var theo = new Theo();
             var frames = new Frames();
-            var text = new Text(editor);
+            var mathHubDocument = new MathHubDocument(editor, "smglom/mv/source/defeq.en.tex", "web");
             
-            var menu = toolbar.addMenu("Home");
-            var section = toolbar.addSection(menu, "MathHub");
-
             frames.on("NewDocLevelService", function(msg) {
-              toolbar.addItem(section, msg.id, msg.icon)
-              interpretter.addImplementation(msg.id, function() {
+              toolbar.addItem(msg.id, msg.icon, function() {
                 frames.executeDocLevelService(msg.id);
               });
             });
 
             frames.on("RemoveDocLevelService", function(msg) {
-              toolbar.removeItem(section, msg.id)
+              toolbar.removeItem(msg.id)
             });
 
             client = new SallyClient({stompUrl: "ws://localhost:61614", stompUser : "webclient", stompPassword : "webclient"});
 
-            client.register([theo, frames, text], "env"+Math.floor(Math.random()*100000), function() {
-
+            client.register([theo, frames, mathHubDocument], "env"+Math.floor(Math.random()*100000), function() {
+              frames.listenDocLevelServices();
             });
 
         });
