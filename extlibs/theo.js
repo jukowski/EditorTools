@@ -147,10 +147,10 @@ define('theo',['require','sally_client','info_kwarc_sally_comm_theo','jsonix'],f
       if (height == null) {
         height = "auto";
       }
-      frame = $("<iframe>").attr("src", url).css("width", "100%").attr("frameborder", 0).attr("marginwidth", 0).attr("marginheight", 0).css("height", height);
-      dv = $("<div>").append(frame).css("overflow", "hidden").css("padding-left", "0px").css("padding-right", "0px");
+      frame = jQuery("<iframe>").attr("src", url).css("width", "100%").attr("frameborder", 0).attr("marginwidth", 0).attr("marginheight", 0).css("height", height);
+      dv = jQuery("<div>").append(frame).css("overflow", "hidden").css("padding-left", "0px").css("padding-right", "0px");
       id = uniqueId();
-      $(dv).dialog({
+      jQuery(dv).dialog({
         title: title,
         height: height,
         width: width,
