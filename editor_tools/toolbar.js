@@ -40,7 +40,7 @@ define(function(require) {
       }
       section = this.addSection(section);
       img = $("<img>").attr("src", icon).attr("height", 16).attr("width", 16).attr("alt", text);
-      btn = $("<button>").addClass("btn").addClass("btn-default").append(img).attr("id", id);
+      btn = $("<button>").attr("type", "button").addClass("btn").addClass("btn-default").append(img).attr("id", id);
       $(btn).click(callback);
       return $(section).append(btn);
     };
