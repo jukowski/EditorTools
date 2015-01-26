@@ -140,7 +140,7 @@ define('theo',['require','sally_client','info_kwarc_sally_comm_theo','jsonix'],f
     };
 
     Theo.prototype.showTheoWindow = function(url, title, posx, posy, width, height) {
-      var dv, frame, id;
+      var dv, frame, id, settings;
       if (width == null) {
         width = "auto";
       }
@@ -150,11 +150,10 @@ define('theo',['require','sally_client','info_kwarc_sally_comm_theo','jsonix'],f
       frame = jQuery("<iframe>").attr("src", url).css("width", "100%").attr("frameborder", 0).attr("marginwidth", 0).attr("marginheight", 0).css("height", height);
       dv = jQuery("<div>").append(frame).css("overflow", "hidden").css("padding-left", "0px").css("padding-right", "0px");
       id = uniqueId();
-      jQuery(dv).dialog({
+      settings = {
         title: title,
         height: height,
         width: width,
-        position: [posx, posy],
         resize: function(e, ui) {
           return frame.css("height", "100%");
         },
@@ -162,7 +161,11 @@ define('theo',['require','sally_client','info_kwarc_sally_comm_theo','jsonix'],f
           delete openedWindows[id];
           return $(dv).dialog("destroy");
         }
-      });
+      };
+      if (typeof posx === "number" && typeof posy === "number") {
+        settings["position"] = [posx, posy];
+      }
+      jQuery(dv).dialog(settings);
       openedWindows[id] = dv;
       return id;
     };
