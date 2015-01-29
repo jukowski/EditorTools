@@ -6,21 +6,31 @@ define(function(require) {
   if (typeof $ === "undefined" || $ === null) {
     $ = jQuery;
   }
+  require("extlibs/jquery.tooltipster.min");
   return Toolbar = (function() {
     function Toolbar(top) {
       this.top = top;
       this.sections = {};
-      this.addSection("default");
     }
 
     Toolbar.prototype.addSection = function(section) {
-      var section_div;
+      var after, name, section_div;
       if (this.sections[section] != null) {
         return this.sections[section];
       }
-      section_div = $("<div>").addClass("btn-group");
+      section_div = $("<div>").addClass("btn-group").attr("alt", section);
+      after = "";
+      for (name in this.sections) {
+        if (name < section && name > after) {
+          after = name;
+        }
+      }
+      if (after === "") {
+        this.top.prepend(section_div);
+      } else {
+        this.sections[after].after(section_div);
+      }
       this.sections[section] = section_div;
-      this.top.append(section_div);
       return section_div;
     };
 
@@ -40,13 +50,15 @@ define(function(require) {
       }
       section = this.addSection(section);
       img = $("<img>").attr("src", icon).attr("height", 16).attr("width", 16).attr("alt", text);
-      btn = $("<button>").attr("type", "button").addClass("btn").addClass("btn-default").append(img).attr("id", id);
+      btn = $("<button>").attr("type", "button").addClass("btn").addClass("btn-default").append(img).attr("id", id).attr("title", text);
       $(btn).click(callback);
+      $(btn).tooltipster({
+        content: text
+      });
       return $(section).append(btn);
     };
 
     Toolbar.prototype.removeItem = function(id) {
-      console.log("removing " + id);
       return $("#" + id).remove();
     };
 
