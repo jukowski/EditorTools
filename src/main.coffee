@@ -8,7 +8,7 @@ define (require) ->
       @id = id;
 
       wrapped = $(id).wrap("<div>").parent();  
-      toolbarDiv = $("<div>").attr("role", "toolbar");
+      toolbarDiv = $("<div>").attr("role", "toolbar").append($("<div>").addClass("toolbar_last"));
       wrapped.prepend(toolbarDiv);
 
       @toolbar = new Toolbar(toolbarDiv);
