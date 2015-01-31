@@ -14,7 +14,7 @@ define(function(require) {
       }
       this.id = id;
       wrapped = $(id).wrap("<div>").parent();
-      toolbarDiv = $("<div>").attr("role", "toolbar");
+      toolbarDiv = $("<div>").attr("role", "toolbar").append($("<div>").addClass("toolbar_last"));
       wrapped.prepend(toolbarDiv);
       this.toolbar = new Toolbar(toolbarDiv);
       ace.config.loadModule("ace/ext/language_tools", (function(_this) {
